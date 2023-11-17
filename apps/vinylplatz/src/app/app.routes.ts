@@ -1,21 +1,9 @@
 import { Route } from '@angular/router';
-import {
-    AboutComponent,
-} from './about/About.component';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+
 
 export const appRoutes: Route[] = [
-    {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'about'
-    },
-    {
-        path: 'about',
-        pathMatch: 'full',
-        component: AboutComponent
-    },
-    {
-        path: '**',
-        redirectTo: 'about'
-    }
+    { path: '', component: HomeComponent },
+  { path: 'about', component: AboutComponent }
 ];

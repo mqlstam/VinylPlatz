@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-import { ApiResponse, IAlbum } from '@vinylplatz/shared/api'; // changed Ialbum to IAlbum
+import { ApiResponse, IAlbum } from '@vinylplatz/shared/api'; 
 import { Injectable } from '@angular/core';
 
 export const httpOptions = {
@@ -15,7 +15,7 @@ export class AlbumService {
 
     constructor(private readonly http: HttpClient) {}
 
-    public list(options?: any): Observable<IAlbum[] | null> { // changed Ialbum to IAlbum
+    public list(options?: any): Observable<IAlbum[] | null> { 
         console.log(`list ${this.endpoint}`);
 
         return this.http
@@ -27,11 +27,11 @@ export class AlbumService {
             );
     }
 
-    public read(id: string | null, options?: any): Observable<IAlbum> { // changed Ialbum to IAlbum
+    public read(id: string | null, options?: any): Observable<IAlbum> { 
         const url = `${this.endpoint}/${id}`;
         console.log(`read ${url}`);
         return this.http
-            .get<ApiResponse<IAlbum>>(url, { ...options, ...httpOptions, }) // changed Ialbum to IAlbum
+            .get<ApiResponse<IAlbum>>(url, { ...options, ...httpOptions, }) 
             .pipe(
                 tap(console.log),
                 map((response) => response.results),
