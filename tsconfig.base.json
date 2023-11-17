@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@vinylplatz/backend/dto": ["libs/backend/dto/src/index.ts"],
+      "@vinylplatz/backend/features": ["libs/backend/features/src/index.ts"],
+      "@vinylplatz/shared/api": ["libs/shared/api/src/index.ts"],
+      "@vinylplatz/ui": ["libs/vinyl/ui/src/index.ts"],
+      "@vinylplatz/vinyl/common": ["libs/vinyl/common/src/index.ts"],
+      "@vinylplatz/vinyl/features": ["libs/vinyl/features/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
