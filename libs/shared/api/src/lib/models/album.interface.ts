@@ -15,11 +15,12 @@ type User = string;
 export interface IAlbum {
     id: Id;
     title: string;
+    artist: string;
     description: string;
     releaseDate: Date;
     genre: Genre;
     // Naam van de persoon die het album heeft gecreëerd.
-    artist: User;
+    user: User;
 }
 
 export type ICreateAlbum = Pick<

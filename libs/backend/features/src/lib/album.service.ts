@@ -16,7 +16,17 @@ export class AlbumService {
             releaseDate: new Date(1986, 2, 3),
             genre: Genre.Metal,
             artist: 'Metallica',
-        },
+            user: 'VinylPlatz',
+        },         {
+            id: uuidv4(),
+            title: 'Ride the Lightning',
+            description: 'Second studio album by the American heavy metal band Metallica.',
+            releaseDate: new Date(1984, 6, 27),
+            genre: Genre.Metal,
+            artist: 'Metallica',
+            user: 'VinylPlatz',
+        }, 
+
     ]);
 
     getAll(): IAlbum[] {
@@ -47,6 +57,7 @@ export class AlbumService {
             ...album,
             id: uuidv4(),
             releaseDate: new Date(),
+            user: 'VinylPlatz',
         };
         Logger.log(`Created new album with id ${newAlbum.id}`, this.TAG);
         this.albums$.next([...current, newAlbum]);

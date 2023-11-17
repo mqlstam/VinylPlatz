@@ -57,6 +57,10 @@ export class UpsertAlbumDto implements IUpsertAlbum {
     @IsString()
     @IsNotEmpty()
     artist!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    user!: string;
 }
 
 export class UpdateAlbumDto implements IUpdateAlbum {

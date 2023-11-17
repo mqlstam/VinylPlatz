@@ -1,0 +1,48 @@
+<div class="container">
+    <h1>Over VinylPlatz</h1>
+    <p>VinylPlatz is een full-stack webapplicatie die fungeert als een online marktplaats voor het kopen, verkopen en beoordelen van vinylplaten. Gebruikers kunnen zich registreren, hun collectie vinylplaten toevoegen, platen kopen en verkopen, en beoordelingen geven aan gekochte vinylplaten.</p>
+
+    <h2>Entiteiten en Relaties</h2>
+    <h3>Entiteiten:</h3>
+    <ul>
+        <li>Gebruiker</li>
+        <li>Plaat</li>
+        <li>Transactie</li>
+        <li>Beoordeling</li>
+    </ul>
+
+    <h3>Relaties:</h3>
+    <ul>
+        <li>Een Gebruiker kan meerdere Platen bezitten (1:N relatie).</li>
+        <li>Een Gebruiker kan meerdere Transacties uitvoeren, als koper of als verkoper (1:N relatie).</li>
+        <li>Een Plaat kan betrokken zijn bij meerdere Transacties (1:N relatie).</li>
+        <li>Een Gebruiker kan meerdere Beoordelingen geven (1:N relatie).</li>
+        <li>Een Plaat kan meerdere Beoordelingen hebben (1:N relatie).</li>
+    </ul>
+
+    <h2>Frontend Functionaliteiten</h2>
+    <ul>
+        <li>Registratie en authenticatie van gebruikers.</li>
+        <li>Lijstweergave en detailweergave van de beschikbare vinylplaten.</li>
+        <li>Het toevoegen, bewerken en verwijderen van vinylplaten (door geauthenticeerde gebruikers).</li>
+        <li>Het uitvoeren van een transactie (aankoop of verkoop van een vinylplaat).</li>
+        <li>Het geven van beoordelingen aan gekochte vinylplaten.</li>
+        <li>Het filteren en sorteren van vinylplaten op basis van verschillende criteria (zoals genre, artiest, prijs).</li>
+        <li>Overzicht van transactiegeschiedenis voor een gebruiker.</li>
+        <li>Overzicht van beoordelingen voor een vinylplaat.</li>
+    </ul>
+
+    <h2>Backend Functionaliteiten</h2>
+    <ul>
+        <li>API endpoints voor CRUD-operaties op de bovengenoemde entiteiten.</li>
+        <li>Authenticatie en autorisatie voor beveiligde endpoints.</li>
+        <li>Logische functies voor het uitvoeren van transacties en het berekenen van gemiddelde beoordelingen voor vinylplaten.</li>
+        <li>Complexe queries voor het filteren en sorteren van vinylplaten, en het ophalen van transactiegeschiedenis en beoordelingen.</li>
+    </ul>
+
+    <h2>Testen en Implementatie</h2>
+    <p>Zowel de frontend als de backend applicaties worden voldoende getest met behulp van testcases. Een CI/CD-pipeline zal worden gebruikt voor automatische testen en implementatie van de applicatie naar een cloudprovider.</p>
+
+    <h2>Over-pagina</h2>
+    <p>De Over-pagina bevat gedetailleerde informatie over de casus, het datamodel en de functionele vereisten van het systeem.</p>
+</div>
