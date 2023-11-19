@@ -27,7 +27,9 @@ export class AlbumdetailsComponent implements OnInit {
 
   getAlbum(id: string) {
     this.albumService.get(id).subscribe(
-      (album) => (this.album = album),
+      (response: any) => {// <-- voeg deze regel toe om het album te loggen
+        this.album = response.results;
+      },
       (error) => console.error('Error fetching album details', error)
     );
   }

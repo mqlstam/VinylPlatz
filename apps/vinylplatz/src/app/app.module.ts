@@ -7,7 +7,9 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
-import { FormsModule } from '@angular/forms';
+
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AlbumdetailsComponent } from './albumdetails/albumdetails.component';
 import { AlbumformComponent } from './albumform/albumform.component';
@@ -29,6 +31,7 @@ import { AlbumlistComponent } from './albumlist/albumlist.component';
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
