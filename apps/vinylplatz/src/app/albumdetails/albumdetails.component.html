@@ -1,0 +1,10 @@
+<div *ngIf="album">
+    <h2>{{ album.title }}</h2>
+    <p>Artist: {{ album.artist }}</p>
+    <p>Description: {{ album.description }}</p>
+    <p>Release Date: {{ album.releaseDate | date }}</p>
+    <p>Genre: {{ album.genre }}</p>
+    <p>Uploaded by: {{ album.user }}</p>
+  </div>
+
+<button routerLink="/">Back to List</button>

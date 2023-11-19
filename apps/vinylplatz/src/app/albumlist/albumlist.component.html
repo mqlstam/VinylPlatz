@@ -1,0 +1,16 @@
+<div *ngFor="let album of albums">
+
+    <h2>{{album.title}}</h2>
+  
+    <div>
+      <span>Artist: {{album.artist}}</span>
+      <span>Genre: {{album.genre}}</span>
+      <span>Release Year: {{album.releaseDate}}</span>
+    </div>
+  
+
+    <button routerLink="/album/{{album.id}}">View Details</button>
+
+  </div>
+  
+  <button routerLink="/add">Add New Album</button>

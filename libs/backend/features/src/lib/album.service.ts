@@ -3,6 +3,7 @@ import { Genre, IAlbum } from '@vinylplatz/shared/api';
 import { BehaviorSubject } from 'rxjs';
 import { Logger } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
+import { UpdateAlbumDto } from '@vinylplatz/backend/dto';
 
 @Injectable()
 export class AlbumService {
@@ -62,5 +63,33 @@ export class AlbumService {
         Logger.log(`Created new album with id ${newAlbum.id}`, this.TAG);
         this.albums$.next([...current, newAlbum]);
         return newAlbum;
+    }
+
+    update(id: string, albumData: UpdateAlbumDto): IAlbum {
+                Logger.log(`update - id: ${id}, payload: ${JSON.stringify(albumData)}`, this.TAG);
+        const albums = this.albums$.value;
+        const index = albums.findIndex((td) => td.id === id);
+        if (index === -1) {
+            Logger.error(`Album with id ${id} not found`, this.TAG);
+            throw new NotFoundException(`Album with id ${id} could not be found!`);
+        }
+        const updatedAlbum: IAlbum = { ...albums[index], ...albumData };
+        albums[index] = updatedAlbum;
+        this.albums$.next(albums);
+        Logger.log(`Updated album with id ${id}`, this.TAG);
+        return updatedAlbum;
+    }
+
+    delete(id: string): void {
+        Logger.log(`delete - id: ${id}`, this.TAG);
+        const albums = this.albums$.value;
+        const index = albums.findIndex((td) => td.id === id);
+        if (index === -1) {
+            Logger.error(`Album with id ${id} not found`, this.TAG);
+            throw new NotFoundException(`Album with id ${id} could not be found!`);
+        }
+        albums.splice(index, 1);
+        this.albums$.next(albums);
+        Logger.log(`Deleted album with id ${id}`, this.TAG);
     }
 }

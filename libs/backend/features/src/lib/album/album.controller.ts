@@ -1,7 +1,9 @@
-import { Controller, Get, Param, Post, Body, HttpCode, UsePipes, ValidationPipe } from '@nestjs/common';
+// album.controller.ts
+
+import { Controller, Get, Param, Post, Put, Delete, Body, HttpCode, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AlbumService } from '../album.service';
 import { IAlbum } from '@vinylplatz/shared/api';
-import { CreateAlbumDto } from '@vinylplatz/backend/dto';
+import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
 
 @Controller('album')
 export class AlbumController {
@@ -22,5 +24,16 @@ export class AlbumController {
     @UsePipes(new ValidationPipe())
     create(@Body() data: CreateAlbumDto): Promise<IAlbum> {
         return Promise.resolve(this.albumService.create(data));
+    }
+
+    @Put(':id')
+    @UsePipes(new ValidationPipe())
+    update(@Param('id') id: string, @Body() data: UpdateAlbumDto): Promise<IAlbum> {
+        return Promise.resolve(this.albumService.update(id, data));
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id: string): Promise<void> {
+        return Promise.resolve(this.albumService.delete(id));
     }
 }
