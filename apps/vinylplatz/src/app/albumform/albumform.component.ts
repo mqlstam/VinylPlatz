@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlbumService } from '../album.service';
 import { ICreateAlbum } from '@vinylplatz/shared/api';
-import { FormControl } from '@angular/forms';
+
 export enum Genre {
   Pop = 'Pop',
   Rock = 'Rock',
