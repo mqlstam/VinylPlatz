@@ -1,27 +1,35 @@
 <form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="title">Title</label>
-      <input id="title" formControlName="title">
-      <!-- validation message -->
-    </div>
-  
-    <div>
-      <label for="artist">Artist</label>
-      <input id="artist" formControlName="artist">
-      <!-- validation message -->
-    </div>
-  
-    <div>
-      <label for="description">Description</label>
-      <input id="description" formControlName="description">
-      <!-- validation message -->
-    </div>
-  
-    <div>
-      <label for="genre">Genre</label>
-      <input id="genre" formControlName="genre">
-      <!-- validation message -->
-    </div>
-  
-    <button type="submit">Save</button>
-  </form>
+  <div>
+    <label for="title">Title</label>
+    <input id="title" formControlName="title">
+    <!-- validation message -->
+  </div>
+
+  <div>
+    <label for="artist">Artist</label>
+    <input id="artist" formControlName="artist">
+    <!-- validation message -->
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+    <!-- validation message -->
+  </div>
+
+  <div>
+    <label for="genre">Genre</label>
+    <select id="genre" formControlName="genre">
+      <option *ngFor="let genre of genreList" [value]="genre">{{ genre }}</option>
+    </select>
+    <!-- validation message -->
+  </div>
+
+  <div>
+    <label for="releaseYear">Release Year</label>
+    <input type="number" id="releaseYear" formControlName="releaseYear">
+    <!-- validation message -->
+  </div>
+
+  <button type="submit">Save</button>
+</form>

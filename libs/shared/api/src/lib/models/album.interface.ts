@@ -25,7 +25,7 @@ export interface IAlbum {
 
 export type ICreateAlbum = Pick<
     IAlbum,
-    'title' | 'description' | 'genre' | 'artist'
+    'title' | 'description' | 'genre' | 'artist' 
 >;
 export type IUpdateAlbum = Partial<Omit<IAlbum, 'id'>>;
 export type IUpsertAlbum = IAlbum;

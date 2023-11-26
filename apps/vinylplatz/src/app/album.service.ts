@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IAlbum, ICreateAlbum, IUpdateAlbum } from '@vinylplatz/shared/api';
+import { IAlbum, ICreateAlbum, IUpdateAlbum, ApiResponse } from '@vinylplatz/shared/api';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -18,31 +18,31 @@ export class AlbumService {
   }
 
   getAll() {
-    return this.http.get<IAlbum[]>(this.url).pipe(
+    return this.http.get<ApiResponse<IAlbum[]>>(this.url).pipe(
       catchError(this.handleError)
     );
   }
 
   create(album: ICreateAlbum) {
-    return this.http.post<IAlbum>(this.url, album).pipe(
+    return this.http.post<ApiResponse<IAlbum>>(this.url, album).pipe(
       catchError(this.handleError)
     );
   }
 
   update(id: string, album: IUpdateAlbum) {
-    return this.http.put<IAlbum>(`${this.url}/${id}`, album).pipe(
+    return this.http.put<ApiResponse<IAlbum>>(`${this.url}/${id}`, album).pipe(
       catchError(this.handleError)
     );
   }
 
   delete(id: string) {
-    return this.http.delete(`${this.url}/${id}`).pipe(
+    return this.http.delete<ApiResponse<any>>(`${this.url}/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
   get(id: string) {
-    return this.http.get<IAlbum>(`${this.url}/${id}`).pipe(
+    return this.http.get<ApiResponse<IAlbum>>(`${this.url}/${id}`).pipe(
       catchError(this.handleError)
     );
   }

@@ -1,10 +1,26 @@
-<div *ngIf="album">
-    <h2>{{ album.title }}</h2>
-    <p>Artist: {{ album.artist }}</p>
-    <p>Description: {{ album.description }}</p>
-    <p>Release Date: {{ album.releaseDate | date }}</p>
-    <p>Genre: {{ album.genre }}</p>
-    <p>Uploaded by: {{ album.user }}</p>
+<div *ngIf="loading" class="text-center">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
   </div>
+</div>
 
-<button routerLink="/list">Back to List</button>
+<div *ngIf="error" class="alert alert-danger" role="alert">
+  {{ error }}
+</div>
+
+<div *ngIf="album" class="album-details">
+  <h2>{{ album?.title }}</h2>
+  <p>Artist: {{ album?.artist }}</p>
+  <p>Description: {{ album?.description }}</p>
+  <p>Release Date: {{ album?.releaseDate}}</p>
+  <p>Genre: {{ album?.genre }}</p>
+  <p>Uploaded by: {{ album?.user }}</p>
+
+  <!-- Optionally, add a delete button -->
+  <button *ngIf="album" (click)="deleteAlbum()" class="btn btn-danger">
+    Delete Album
+  </button>
+  
+  <!-- Back to List Button -->
+  <button routerLink="/list" class="btn btn-secondary">Back to List</button>
+</div>

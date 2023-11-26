@@ -10,6 +10,7 @@ import { AppModule } from './app/app.module';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ApiResponseInterceptor } from '@vinylplatz/backend/dto';
 
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
@@ -17,7 +18,6 @@ async function bootstrap() {
 
 const corsOptions: CorsOptions = {};
 app.enableCors(corsOptions);
-
 app.useGlobalInterceptors(new ApiResponseInterceptor());
 
   const port = process.env.PORT || 3000;

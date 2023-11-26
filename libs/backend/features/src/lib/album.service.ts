@@ -16,6 +16,7 @@ export class AlbumService {
             description: 'Third studio album by the American heavy metal band Metallica.',
             releaseDate: new Date(1986, 2, 3),
             genre: Genre.Metal,
+            
             artist: 'Metallica',
             user: 'VinylPlatz',
         },         {

@@ -19,15 +19,15 @@ export enum Genre {
   styleUrls: ['./albumform.component.css'],
 })
 export class AlbumformComponent {
+  genreList = Object.values(Genre); // List of genres for the dropdown
   albumForm = this.fb.group({
     title: ['', Validators.required],
     artist: ['', Validators.required],
-    description: ['', Validators.required],  // add this line
-    genre: ['', Validators.required],  // and this line
+    description: ['', Validators.required],
+    genre: ['', Validators.required],
   });
 
   constructor(private fb: FormBuilder, private albumService: AlbumService, private router: Router) {}
-
 
   onSubmit() {
     if (this.albumForm.valid) {
@@ -35,17 +35,13 @@ export class AlbumformComponent {
         title: this.albumForm.value.title ?? '',
         artist: this.albumForm.value.artist ?? '',
         description: this.albumForm.value.description ?? '',
-        genre: this.albumForm.value.genre as Genre
+        genre: this.albumForm.value.genre as Genre,
       };
       
-      this.albumService.create(album)
-        .subscribe(
-          album => {
-            this.router.navigateByUrl('/list'); // Redirect to list page
-          }, 
-          error => {
-            console.error(error); // Show error
-          });
+      this.albumService.create(album).subscribe({
+        next: () => this.router.navigateByUrl('/list'), // Redirect to list page on success
+        error: error => console.error('Error creating album:', error) // Log error on failure
+      });
     }
   }
 }
