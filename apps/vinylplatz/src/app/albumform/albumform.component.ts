@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../album.service';
 import { IAlbum, ICreateAlbum } from '@vinylplatz/shared/api';
+
 import { ApiResponse } from '@vinylplatz/shared/api';
 
 export enum Genre {
@@ -27,7 +28,9 @@ export class AlbumformComponent implements OnInit {
     artist: ['', Validators.required],
     description: ['', Validators.required],
     genre: ['', Validators.required],
+    releaseDate: ['', Validators.required] // Ensure this is a string
   });
+  
   isEditMode = false;
   albumId?: string;
 
@@ -59,21 +62,27 @@ export class AlbumformComponent implements OnInit {
         next: (response) => {
           if (response.results && !Array.isArray(response.results)) {
             const album = response.results;
-            this.albumForm.patchValue(album);
+            this.albumForm.patchValue({
+              ...album,
+              releaseDate: album.releaseDate.split('T')[0] // Keep only the date part
+            });
           }
         },
         error: (error) => console.error('Error loading album:', error)
       });
     }
   }
+  
+  
 
   onSubmit() {
     if (this.albumForm.valid) {
-      const albumData = {
+      const albumData: ICreateAlbum = {
         title: this.albumForm.value.title ?? '',
         artist: this.albumForm.value.artist ?? '',
         description: this.albumForm.value.description ?? '',
         genre: this.albumForm.value.genre as Genre,
+        releaseDate: this.albumForm.value.releaseDate ?? '',
       };
 
       if (this.isEditMode && this.albumId) {

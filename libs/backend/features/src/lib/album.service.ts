@@ -3,7 +3,7 @@ import { Genre, IAlbum } from '@vinylplatz/shared/api';
 import { BehaviorSubject } from 'rxjs';
 import { Logger } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { UpdateAlbumDto } from '@vinylplatz/backend/dto';
+import { UpdateAlbumDto, CreateAlbumDto } from '@vinylplatz/backend/dto';
 
 @Injectable()
 export class AlbumService {
@@ -14,7 +14,7 @@ export class AlbumService {
             id: uuidv4(),
             title: 'Master of Puppets',
             description: 'Third studio album by the American heavy metal band Metallica.',
-            releaseDate: new Date(1986, 2, 3),
+            releaseDate: '1986-03-03',
             genre: Genre.Metal,
             
             artist: 'Metallica',
@@ -23,7 +23,7 @@ export class AlbumService {
             id: uuidv4(),
             title: 'Ride the Lightning',
             description: 'Second studio album by the American heavy metal band Metallica.',
-            releaseDate: new Date(1984, 6, 27),
+            releaseDate: '1984-07-27', 
             genre: Genre.Metal,
             artist: 'Metallica',
             user: 'VinylPlatz',
@@ -48,23 +48,22 @@ export class AlbumService {
         return album;
     }
 
-    create(album: Pick<IAlbum, 'title' | 'description' | 'genre' | 'artist'>): IAlbum {
+    create(album: CreateAlbumDto): IAlbum {
         Logger.log(`create - payload: ${JSON.stringify(album)}`, this.TAG);
-        if (!album.title || !album.description || !album.genre || !album.artist) {
-            Logger.error('Failed to create album - missing required fields', this.TAG);
-            throw new Error('Failed to create album - missing required fields');
-        }
-        const current = this.albums$.value;
+        
         const newAlbum: IAlbum = {
-            ...album,
             id: uuidv4(),
-            releaseDate: new Date(),
-            user: 'VinylPlatz',
+            user: 'DefaultUser', // Placeholder or logic to determine user
+            ...album,
         };
+    
         Logger.log(`Created new album with id ${newAlbum.id}`, this.TAG);
+        const current = this.albums$.value;
         this.albums$.next([...current, newAlbum]);
         return newAlbum;
     }
+    
+    
 
     update(id: string, albumData: UpdateAlbumDto): IAlbum {
                 Logger.log(`update - id: ${id}, payload: ${JSON.stringify(albumData)}`, this.TAG);

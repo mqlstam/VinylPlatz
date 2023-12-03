@@ -17,15 +17,11 @@ export interface IAlbum {
     title: string;
     artist: string;
     description: string;
-    releaseDate: Date;
+    releaseDate: string; // Changed from Date to string
     genre: Genre;
-    // Naam van de persoon die het album heeft gecreëerd.
     user: User;
 }
 
-export type ICreateAlbum = Pick<
-    IAlbum,
-    'title' | 'description' | 'genre' | 'artist' 
->;
+export type ICreateAlbum = Omit<IAlbum, 'id' | 'user'>;
 export type IUpdateAlbum = Partial<Omit<IAlbum, 'id'>>;
 export type IUpsertAlbum = IAlbum;

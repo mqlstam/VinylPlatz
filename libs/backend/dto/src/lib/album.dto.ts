@@ -26,12 +26,18 @@ export class CreateAlbumDto implements ICreateAlbum {
 
     @IsString()
     @IsNotEmpty()
+    releaseDate!: string;
+
+    @IsString()
+    @IsNotEmpty()
     genre!: Genre;
 
     @IsString()
     @IsNotEmpty()
     artist!: string;
+
 }
+
 
 export class UpsertAlbumDto implements IUpsertAlbum {
     @IsString()
@@ -48,7 +54,7 @@ export class UpsertAlbumDto implements IUpsertAlbum {
 
     @IsDate()
     @IsNotEmpty()
-    releaseDate!: Date;
+    releaseDate!: string;
 
     @IsString()
     @IsNotEmpty()
