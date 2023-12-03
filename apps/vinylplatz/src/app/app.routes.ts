@@ -12,4 +12,5 @@ export const appRoutes: Route[] = [
   { path: 'list', component: AlbumlistComponent },
   { path: 'add', component: AlbumformComponent },
   { path: 'album/:id', component: AlbumdetailsComponent },
+  { path: 'edit/:id', component: AlbumformComponent }, // Add this line
 ];

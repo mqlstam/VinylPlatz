@@ -45,5 +45,5 @@ export class AlbumService {
     return this.http.get<ApiResponse<IAlbum>>(`${this.url}/${id}`).pipe(
       catchError(this.handleError)
     );
-  }
+  }  
 }
