@@ -1,3 +1,5 @@
+// libs/backend/dto/src/lib/album.dto.ts
+
 import {
     IsNotEmpty,
     IsString,

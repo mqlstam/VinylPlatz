@@ -1,7 +1,7 @@
 // album.controller.ts
 
 import { Controller, Get, Param, Post, Put, Delete, Body, HttpCode, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AlbumService } from '../album.service';
+import { AlbumService } from './album.service';
 import { IAlbum } from '@vinylplatz/shared/api';
 import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
 

@@ -1,3 +1,5 @@
+//libs/shared/api/src/lib/models/album.interface.ts
+
 import { Id } from './id.type';
 
 export enum Genre {
