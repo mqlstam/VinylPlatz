@@ -1,6 +1,6 @@
 // libs/backend/features/user/user.controller.ts
 
-import { Body, Controller, Post, Put, Param } from '@nestjs/common';
+import { Body, Controller, Post, Put, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from '@vinylplatz/backend/dto';
 
@@ -18,5 +18,10 @@ export class UserController {
     return this.userService.updateUser(id, updateUserDto);
   }
 
+
+  @Get()
+  async getAllUsers() {
+    return this.userService.findAllUsers();
+  }
   // Additional endpoints as needed...
 }

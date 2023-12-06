@@ -1,2 +1,4 @@
-export * from '../album/album.module';
-export * from '../album/album.service';
+
+export * from './lib/user/user.module';
+export * from './lib/album/album.module';
+
