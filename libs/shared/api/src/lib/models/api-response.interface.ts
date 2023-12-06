@@ -1,3 +1,5 @@
+// api-response.interface.ts
+
 export interface ApiMetaInfo {
     version: string;
     type: 'object' | 'list' | 'none';
