@@ -1,9 +1,6 @@
-// libs/backend/dto/src/lib/user.dto.ts
-
 import { IsEmail, IsNotEmpty, IsString, IsOptional, MinLength } from 'class-validator';
-import { ICreateUser, IUpdateUser } from '@vinylplatz/shared/api';
 
-export class CreateUserDto implements ICreateUser {
+export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   username!: string;
@@ -17,14 +14,24 @@ export class CreateUserDto implements ICreateUser {
 
   @IsString()
   @IsNotEmpty()
-  location!: string;
+  role!: string;
 
   @IsString()
-  @IsNotEmpty()
-  role!: string;
+  @IsOptional()
+  firstName?: string;
+
+  @IsString()
+  @IsOptional()
+  lastName?: string;
+
+  @IsString()
+  @IsOptional()
+  profileImage?: string;
+
+ 
 }
 
-export class UpdateUserDto implements IUpdateUser {
+export class UpdateUserDto {
   @IsString()
   @IsOptional()
   username?: string;
@@ -35,9 +42,28 @@ export class UpdateUserDto implements IUpdateUser {
 
   @IsString()
   @IsOptional()
-  location?: string;
+  role?: string;
 
   @IsString()
   @IsOptional()
-  role?: string;
+  firstName?: string;
+
+  @IsString()
+  @IsOptional()
+  lastName?: string;
+
+  @IsString()
+  @IsOptional()
+  profileImage?: string;
 }
+
+export class LoginUserDto {
+  @IsString()
+  @IsNotEmpty()
+  username!: string;
+
+  @IsString()
+  @MinLength(8)
+  password!: string;
+}
+

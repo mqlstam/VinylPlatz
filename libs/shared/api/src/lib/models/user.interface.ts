@@ -1,17 +1,17 @@
 // libs/shared/api/src/lib/models/user.interface.ts
+import { ObjectId } from 'mongoose';
 
-import { Id } from './id.type';
-
-// This is a basic structure for the User interface.
-// Modify as needed based on your application's requirements.
-export interface IUser {
-  id: Id;
+export interface IUser{
+  _id?: ObjectId;
   username: string;
   email: string;
-  location: string;
+  password: string;
   role: string;
-  // Add other user-specific fields as needed
+  firstName?: string;
+  lastName?: string;
+  profileImage?: string;
 }
 
-export type ICreateUser = Omit<IUser, 'id'>;
-export type IUpdateUser = Partial<Omit<IUser, 'id'>>;
+export interface IUserWithMethods extends IUser {
+  comparePassword: (candidatePassword: string) => Promise<boolean>;
+}

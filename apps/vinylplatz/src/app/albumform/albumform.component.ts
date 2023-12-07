@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../album.service';
 import { IAlbum, ICreateAlbum } from '@vinylplatz/shared/api';
-import { ApiResponseHandlerService } from '../api-response-handler.service';
 
 import { ApiResponse } from '@vinylplatz/shared/api';
 
@@ -39,8 +38,7 @@ export class AlbumformComponent implements OnInit {
     private fb: FormBuilder, 
     private albumService: AlbumService, 
     private router: Router,
-    private route: ActivatedRoute,
-    private apiResponseHandler: ApiResponseHandlerService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -58,22 +56,23 @@ export class AlbumformComponent implements OnInit {
     });
   }
 
-loadAlbumData() {
-  if (this.albumId) {
-    this.albumService.get(this.albumId).subscribe({
-      next: (response) => {
-        const albumData = this.apiResponseHandler.handleResponse(response);
-        if (albumData && !Array.isArray(albumData)) {
-          this.albumForm.patchValue({
-            ...albumData as IAlbum,
-            releaseDate: albumData.releaseDate.split('T')[0] // Adjust if needed
-          });
-        }
-      },
-      error: (error) => console.error('Error loading album:', error)
-    });
+  loadAlbumData() {
+    if (this.albumId) {
+      this.albumService.get(this.albumId).subscribe({
+        next: (response) => {
+          if (response.results && !Array.isArray(response.results)) {
+            const album = response.results;
+            this.albumForm.patchValue({
+              ...album,
+              releaseDate: album.releaseDate.split('T')[0] // Keep only the date part
+            });
+          }
+        },
+        error: (error) => console.error('Error loading album:', error)
+      });
+    }
   }
-}
+  
   
 
   onSubmit() {

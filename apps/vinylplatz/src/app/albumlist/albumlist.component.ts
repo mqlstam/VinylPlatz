@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album.service';
 import { IAlbum, ApiResponse } from '@vinylplatz/shared/api'; 
-import { ApiResponseHandlerService } from '../api-response-handler.service';
 
 @Component({
   selector: 'vinylplatz-albumlist',
@@ -13,9 +12,7 @@ export class AlbumlistComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
-  constructor(private albumService: AlbumService,
-    private apiResponseHandler: ApiResponseHandlerService
-    ) {}
+  constructor(private albumService: AlbumService) {}
 
   ngOnInit() {
     this.loadAlbums();
@@ -26,9 +23,11 @@ export class AlbumlistComponent implements OnInit {
   
     this.albumService.getAll().subscribe({
       next: (apiResponse: ApiResponse<IAlbum[]>) => {
-        const albumData = this.apiResponseHandler.handleResponse(apiResponse);
-        // Safely cast to IAlbum[] as handleResponse always returns an array
-        this.albums = albumData as IAlbum[];
+        if (apiResponse.results && Array.isArray(apiResponse.results)) {
+          this.albums = apiResponse.results as IAlbum[]; // Ensure the results are treated as IAlbum[]
+        } else {
+          this.albums = []; // Handle the case where 'results' is missing or not an array
+        }
         this.loading = false;
       },
       error: (err) => {
@@ -38,8 +37,6 @@ export class AlbumlistComponent implements OnInit {
       }
     });
   }
-  
-  
   
   
 
