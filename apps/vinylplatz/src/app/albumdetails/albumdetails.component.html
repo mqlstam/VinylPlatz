@@ -11,10 +11,13 @@
 <div *ngIf="album" class="album-details">
   <h2>{{ album?.title }}</h2>
   <p>Artist: {{ album?.artist }}</p>
-  <p>Description: {{ album?.description }}</p>
-  <p>Release Date: {{ album?.releaseDate}}</p>
-  <p>Genre: {{ album?.genre }}</p>
-  <p>Uploaded by: {{ album?.user }}</p>
+  <!-- Removed Description and User as they are not in the IAlbum interface -->
+  <p>Release Date: {{ album?.releaseDate | date }}</p>
+  <p>Genre: <span *ngFor="let genre of album?.genre; let last = last">{{ genre }}<span *ngIf="!last">, </span></span></p>
+  <!-- Conditional display of cover image -->
+  <div *ngIf="album?.coverImageUrl">
+    <img [src]="album?.coverImageUrl" alt="{{ album?.title }} cover image">
+  </div>
 
   <!-- Optionally, add a delete button -->
   <button *ngIf="album" (click)="deleteAlbum()" class="btn btn-danger">

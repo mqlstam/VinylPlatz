@@ -1,8 +1,9 @@
+// apps/vinylplatz/src/app/albumdetails/albumdetails.component.ts
+
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlbumService } from '../album.service';
-import { IAlbum, ApiResponse } from '@vinylplatz/shared/api';
-import { Router } from '@angular/router';
+import { IAlbum, ApiSingleResponse  } from '@vinylplatz/shared/api';
 
 @Component({
   selector: 'vinylplatz-albumdetails',
@@ -20,6 +21,7 @@ export class AlbumdetailsComponent implements OnInit {
     private router: Router
   ) {}
 
+
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -32,9 +34,9 @@ export class AlbumdetailsComponent implements OnInit {
     this.error = null;
 
     this.albumService.get(id).subscribe({
-      next: (apiResponse: ApiResponse<IAlbum>) => {
-        if (apiResponse.results) {
-          this.album = apiResponse.results as IAlbum;
+      next: (apiResponse: ApiSingleResponse<IAlbum>) => {
+        if (apiResponse.result) {
+          this.album = apiResponse.result;
         } else {
           this.error = 'Album details not found.';
         }
@@ -47,19 +49,23 @@ export class AlbumdetailsComponent implements OnInit {
       }
     });
   }
-  deleteAlbum() {
-    if (this.album && confirm('Are you sure you want to delete this album?')) {
-      this.albumService.delete(this.album.id).subscribe({
-        next: () => {
-          // Navigate to the list page after successful deletion
-          this.router.navigate(['/list']);
-        },
-        error: (err) => {
-          console.error('Error deleting album:', err);
-          this.error = 'Error deleting album. Please try again later.';
-        }
-      });
+    
+    deleteAlbum() {
+      if (this.album && this.album._id && confirm('Are you sure you want to delete this album?')) {
+        // Convert ObjectId to string
+        const albumId = this.album._id.toString();
+    
+        this.albumService.delete(albumId).subscribe({
+          next: () => {
+            this.router.navigate(['/list']);
+          },
+          error: (err) => {
+            console.error('Error deleting album:', err);
+            this.error = 'Error deleting album. Please try again later.';
+          }
+        });
+      } else {
+        this.error = 'Album ID is undefined. Cannot delete album.';
+      }
     }
-  }
-}
-
+  }    

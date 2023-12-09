@@ -1,36 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../album.service';
-import { IAlbum, ICreateAlbum } from '@vinylplatz/shared/api';
-
-import { ApiResponse } from '@vinylplatz/shared/api';
-
-export enum Genre {
-  Pop = 'Pop',
-  Rock = 'Rock',
-  Jazz = 'Jazz',
-  Classical = 'Classical',
-  Metal = 'Metal',
-  Other = 'Other'
-}
+import { IAlbum, Genre, ApiSingleResponse } from '@vinylplatz/shared/api';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'vinylplatz-albumform',
   templateUrl: './albumform.component.html',
   styleUrls: ['./albumform.component.css'],
 })
-
 export class AlbumformComponent implements OnInit {
   genreList = Object.values(Genre);
   albumForm = this.fb.group({
     title: ['', Validators.required],
     artist: ['', Validators.required],
-    description: ['', Validators.required],
-    genre: ['', Validators.required],
-    releaseDate: ['', Validators.required] // Ensure this is a string
+    genre: this.fb.array([], Validators.required), // Initialize as a FormArray
+    releaseDate: ['', Validators.required],
+    coverImageUrl: ['']
   });
-  
+
   isEditMode = false;
   albumId?: string;
 
@@ -59,43 +47,54 @@ export class AlbumformComponent implements OnInit {
   loadAlbumData() {
     if (this.albumId) {
       this.albumService.get(this.albumId).subscribe({
-        next: (response) => {
-          if (response.results && !Array.isArray(response.results)) {
-            const album = response.results;
+        next: (response: ApiSingleResponse<IAlbum>) => {
+          if (response.result) {
+            const album = response.result;
             this.albumForm.patchValue({
               ...album,
-              releaseDate: album.releaseDate.split('T')[0] // Keep only the date part
+              releaseDate: new Date(album.releaseDate).toISOString().split('T')[0]
             });
+            this.setGenres(album.genre || []);
           }
         },
         error: (error) => console.error('Error loading album:', error)
       });
     }
   }
-  
-  
+
+  setGenres(genres: Genre[]) {
+    const genreFormArray = this.albumForm.get('genre') as FormArray;
+    genreFormArray.clear(); // Clear existing form array
+    genres.forEach(genre => genreFormArray.push(this.fb.control(genre)));
+  }
 
   onSubmit() {
-    if (this.albumForm.valid) {
-      const albumData: ICreateAlbum = {
-        title: this.albumForm.value.title ?? '',
-        artist: this.albumForm.value.artist ?? '',
-        description: this.albumForm.value.description ?? '',
-        genre: this.albumForm.value.genre as Genre,
-        releaseDate: this.albumForm.value.releaseDate ?? '',
-      };
-
-      if (this.isEditMode && this.albumId) {
-        this.albumService.update(this.albumId, albumData).subscribe({
-          next: () => this.router.navigateByUrl('/list'),
-          error: error => console.error('Error updating album:', error)
-        });
-      } else {
-        this.albumService.create(albumData).subscribe({
-          next: () => this.router.navigateByUrl('/list'),
-          error: error => console.error('Error creating album:', error)
-        });
-      }
+    const genreFormArray = this.albumForm.get('genre');
+    let genres: Genre[] = [];
+  
+    if (genreFormArray && genreFormArray instanceof FormArray) {
+      genres = genreFormArray.value.map((g: any) => g as Genre);
+    }
+  
+    const albumData: IAlbum = {
+      title: this.albumForm.value.title || '',
+      artist: this.albumForm.value.artist || '',
+      genre: genres, // Use the genres array
+      releaseDate: this.albumForm.value.releaseDate ? new Date(this.albumForm.value.releaseDate) : new Date(),
+      coverImageUrl: this.albumForm.value.coverImageUrl || undefined
+    };
+  
+    if (this.isEditMode && this.albumId) {
+      this.albumService.update(this.albumId, albumData).subscribe({
+        next: () => this.router.navigateByUrl('/list'),
+        error: error => console.error('Error updating album:', error)
+      });
+    } else {
+      this.albumService.create(albumData).subscribe({
+        next: () => this.router.navigateByUrl('/list'),
+        error: error => console.error('Error creating album:', error)
+      });
     }
   }
+  
 }

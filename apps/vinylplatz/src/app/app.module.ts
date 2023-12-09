@@ -6,14 +6,13 @@ import { appRoutes } from './app.routes';
 import { AboutComponent } from './about/about.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
-
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AlbumdetailsComponent } from './albumdetails/albumdetails.component';
 import { AlbumformComponent } from './albumform/albumform.component';
 import { AlbumlistComponent } from './albumlist/albumlist.component';
-
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +22,8 @@ import { AlbumlistComponent } from './albumlist/albumlist.component';
     AlbumlistComponent,
     AlbumdetailsComponent,
     AlbumformComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

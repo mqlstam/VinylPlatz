@@ -1,29 +1,24 @@
-//libs/shared/api/src/lib/models/album.interface.ts
-
-import { Id } from './id.type';
-
-export enum Genre {
-    Pop = 'Pop',
-    Rock = 'Rock',
-    Jazz = 'Jazz',
-    Classical = 'Classical',
-    Metal = 'Metal',
-    Other = 'Other'
-}
-
-// Voor nu is onze user een string; later zullen we hier een User object van maken.
-type User = string;
+// libs/shared/api/src/lib/models/album.interface.ts
+import { ObjectId } from 'mongoose';
 
 export interface IAlbum {
-    id: Id;
-    title: string;
-    artist: string;
-    description: string;
-    releaseDate: string; // Changed from Date to string
-    genre: Genre;
-    user: User;
+  _id?: ObjectId;
+  title: string;
+  artist: string;
+  releaseDate: Date;
+  genre: Genre[]; // Use the Genre enum
+  coverImageUrl?: string;
 }
 
-export type ICreateAlbum = Omit<IAlbum, 'id' | 'user'>;
-export type IUpdateAlbum = Partial<Omit<IAlbum, 'id'>>;
-export type IUpsertAlbum = IAlbum;
+// Define a Genre enum
+export enum Genre {
+  Rock = 'Rock',
+  Pop = 'Pop',
+  Jazz = 'Jazz',
+  HipHop = 'Hip-Hop',
+  // Add more genres as needed
+}
+
+// export icreate
+
+

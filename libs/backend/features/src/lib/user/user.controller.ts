@@ -1,97 +1,99 @@
-
 // libs/backend/features/src/lib/user/user.controller.ts
-
 import { 
-  Body, 
-  Controller, 
-  Post, 
-  Put, 
-  Get, 
-  Param, 
-  Delete, 
-  HttpCode, 
-  HttpStatus,
-  NotFoundException 
+  Body, Controller, Post, Put, Get, Param, Delete, 
+  HttpCode, HttpStatus, NotFoundException, UseGuards, 
+  BadRequestException, Inject, Logger 
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from '@vinylplatz/backend/dto';
-import { IUser } from '@vinylplatz/shared/api';
-import { ConflictException } from '@nestjs/common';
-import * as jwt from 'jsonwebtoken'; // Import the 'jsonwebtoken' library
-import { UnauthorizedException } from '@nestjs/common';
-import { IUserWithMethods } from '@vinylplatz/shared/api';
-
+import { IUser, IUserWithMethods } from '@vinylplatz/shared/api';
+import { ConflictException, UnauthorizedException } from '@nestjs/common';
+import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { validateOrReject } from 'class-validator';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  private readonly logger = new Logger(UserController.name);
+
+  constructor(
+    private readonly userService: UserService,
+    private readonly configService: ConfigService
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createUser(@Body() createUserDto: CreateUserDto): Promise<IUser> {
+    await validateOrReject(createUserDto).catch(errors => {
+      throw new BadRequestException('Validation failed', JSON.stringify(errors));
+    });
+
     const { username, email } = createUserDto;
-  
-    // Check for existing user with the same username or email
     const existingUser = await this.userService.findUserByUsernameOrEmail(username, email);
     if (existingUser) {
       throw new ConflictException('Username or email already in use');
     }
-  
-    // Create the user
+    
+    this.logger.log(`Creating a new user: ${username}`);
     return this.userService.createUser(createUserDto);
   }
 
-  @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<IUser> {
-    return this.userService.updateUser(id, updateUserDto);
-  }
-
-  @Get()
-  async getAllUsers(): Promise<IUser[]> {
-    return this.userService.findAllUsers();
-  }
-
-  @Get(':id')
-  async getUserById(@Param('id') id: string): Promise<IUser> {
-    const user = await this.userService.findUserById(id);
-    if (!user) {
-      throw new NotFoundException('User not found');
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    async getAllUsers(): Promise<IUser[]> {
+      return this.userService.findAllUsers();
     }
-    return user;
-  }
-
-  @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteUser(@Param('id') id: string): Promise<void> {
-    const success = await this.userService.deleteUser(id);
-    if (!success) {
-      throw new NotFoundException('User not found');
+  
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async getUserById(@Param('id') id: string): Promise<IUser> {
+      const user = await this.userService.findUserById(id);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user;
     }
-  }
+  
+    @UseGuards(JwtAuthGuard)
+    @Put(':id')
+    async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<IUser> {
+      return this.userService.updateUser(id, updateUserDto);
+    }
+  
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async deleteUser(@Param('id') id: string): Promise<void> {
+      const success = await this.userService.deleteUser(id);
+      if (!success) {
+        throw new NotFoundException('User not found');
+      }
+    }
 
-  @Post('login')
+   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(@Body() loginUserDto: LoginUserDto) {
     const { username, password } = loginUserDto;
 
-    // Find the user by username or email using the `findUserByUsernameOrEmail` method
-    const user = await this.userService.findUserByUsernameOrEmail(username, username); // Assuming username is unique
-
+    const user = await this.userService.findUserByUsernameOrEmail(username, username);
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
-
-    // Verify the user's password using the `comparePassword` method
+  
     const isPasswordValid = await (user as IUserWithMethods).comparePassword(password);
-
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid username or password');
     }
-
-    // Generate a JWT token using the `_id` from the Mongoose schema
-    const token = jwt.sign({ sub: user._id, username: user.username }, 'your-secret-key', {
-      expiresIn: '1h',
-    });
-
+  
+    const jwtSecret = this.configService.get<string>('JWT_SECRET');
+    if (!jwtSecret) {
+      throw new Error('JWT secret is not defined');
+    }
+  
+    this.logger.log(`Generating JWT token for user: ${username}`);
+    const token = jwt.sign({ sub: user._id, username: user.username }, jwtSecret, { expiresIn: '1h' });
     return { token };
   }
-}
+  
+  }

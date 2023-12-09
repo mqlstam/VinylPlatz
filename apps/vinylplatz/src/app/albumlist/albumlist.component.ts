@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album.service';
-import { IAlbum, ApiResponse } from '@vinylplatz/shared/api'; 
+import { IAlbum, ApiListResponse } from '@vinylplatz/shared/api'; 
 
 @Component({
   selector: 'vinylplatz-albumlist',
@@ -17,16 +17,17 @@ export class AlbumlistComponent implements OnInit {
   ngOnInit() {
     this.loadAlbums();
   }
+
   loadAlbums() {
     this.loading = true;
     this.error = null;
   
     this.albumService.getAll().subscribe({
-      next: (apiResponse: ApiResponse<IAlbum[]>) => {
+      next: (apiResponse: ApiListResponse<IAlbum>) => {
         if (apiResponse.results && Array.isArray(apiResponse.results)) {
-          this.albums = apiResponse.results as IAlbum[]; // Ensure the results are treated as IAlbum[]
+          this.albums = apiResponse.results;
         } else {
-          this.albums = []; // Handle the case where 'results' is missing or not an array
+          this.albums = []; // If 'results' is missing or not an array, set albums to an empty array
         }
         this.loading = false;
       },
@@ -38,13 +39,17 @@ export class AlbumlistComponent implements OnInit {
     });
   }
   
-  
-
   deleteAlbum(id: string) {
     if (confirm('Are you sure you want to delete this album?')) {
-      this.albumService.delete(id);
-      // Optionally, refresh the album list after deletion
-      this.loadAlbums();
+      this.albumService.delete(id).subscribe({
+        next: () => {
+          this.loadAlbums(); // Refresh the album list after deletion
+        },
+        error: (err) => {
+          console.error('Error deleting album:', err);
+          // Handle error appropriately
+        }
+      });
     }
   }
 }

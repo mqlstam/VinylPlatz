@@ -6,7 +6,12 @@ export interface ApiMetaInfo {
     count: number;
 }
 
-export interface ApiResponse<T> {
-    results?: T[] | T;
+export interface ApiSingleResponse<T> {
+    result?: T;
+    info: ApiMetaInfo;
+}
+
+export interface ApiListResponse<T> {
+    results?: T[];
     info: ApiMetaInfo;
 }

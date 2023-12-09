@@ -1,90 +1,51 @@
 // libs/backend/dto/src/lib/album.dto.ts
+import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, IsUrl } from 'class-validator';
+import { Type } from 'class-transformer';
+import { Genre } from '@vinylplatz/shared/api'; // Assuming Genre is an enum or similar construct
 
-import {
-    IsNotEmpty,
-    IsString,
-    IsOptional,
-    IsDate
-} from 'class-validator';
-import {
-    ICreateAlbum,
-    IUpdateAlbum,
-    IUpsertAlbum,
-    Genre
-} from '@vinylplatz/shared/api';
+export class CreateAlbumDto {
+  @IsString()
+  @IsNotEmpty()
+  title!: string;
 
-/**
- * Use the `Pick` utility type to extract only the properties we want for
- * new album items
- */
-export class CreateAlbumDto implements ICreateAlbum {
-    @IsString()
-    @IsNotEmpty()
-    title!: string;
+  @IsString()
+  @IsNotEmpty()
+  artist!: string;
 
-    @IsString()
-    @IsNotEmpty()
-    description!: string;
+  @IsDate()
+  @Type(() => Date)
+  releaseDate!: Date;
 
-    @IsString()
-    @IsNotEmpty()
-    releaseDate!: string;
+  @IsArray()
+  @IsNotEmpty()
+  genre!: Genre[];
 
-    @IsString()
-    @IsNotEmpty()
-    genre!: Genre;
-
-    @IsString()
-    @IsNotEmpty()
-    artist!: string;
-
+  @IsString()
+  @IsOptional()
+  @IsUrl()
+  coverImageUrl?: string;
 }
 
+export class UpdateAlbumDto {
+  @IsString()
+  @IsOptional()
+  title?: string;
 
-export class UpsertAlbumDto implements IUpsertAlbum {
-    @IsString()
-    @IsNotEmpty()
-    title!: string;
+  @IsString()
+  @IsOptional()
+  artist?: string;
 
-    @IsString()
-    @IsNotEmpty()
-    description!: string;
+  @IsDate()
+  @IsOptional()
+  @Type(() => Date)
+  releaseDate?: Date;
 
-    @IsString()
-    @IsNotEmpty()
-    id!: string;
+  @IsArray()
+  @IsOptional()
+  genre?: Genre[];
 
-    @IsDate()
-    @IsNotEmpty()
-    releaseDate!: string;
-
-    @IsString()
-    @IsNotEmpty()
-    genre!: Genre;
-
-    @IsString()
-    @IsNotEmpty()
-    artist!: string;
-
-    @IsString()
-    @IsNotEmpty()
-    user!: string;
-}
-
-export class UpdateAlbumDto implements IUpdateAlbum {
-    @IsString()
-    @IsOptional()
-    title?: string;
-
-    @IsString()
-    @IsOptional()
-    description?: string;
-
-    @IsString()
-    @IsOptional()
-    genre?: Genre;
-
-    @IsString()
-    @IsOptional()
-    artist?: string;
+  @IsString()
+  @IsOptional()
+  @IsUrl()
+  coverImageUrl?: string;
 }
