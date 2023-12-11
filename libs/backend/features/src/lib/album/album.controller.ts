@@ -1,7 +1,7 @@
 import { 
   Body, Controller, Post, Put, Get, Param, Delete, 
   HttpCode, HttpStatus, NotFoundException, UseGuards, 
-  BadRequestException, Logger, UsePipes, ValidationPipe 
+  BadRequestException, Logger, UsePipes, ValidationPipe, Req 
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
@@ -17,14 +17,15 @@ export class AlbumController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard) // Ensure that this endpoint is protected
   @UsePipes(new ValidationPipe())
-  async createAlbum(@Body() createAlbumDto: CreateAlbumDto): Promise<IAlbum> {
+  async createAlbum(@Body() createAlbumDto: CreateAlbumDto, @Req() req): Promise<IAlbum> {
     await validateOrReject(createAlbumDto).catch(errors => {
       throw new BadRequestException('Validation failed', JSON.stringify(errors));
     });
 
-    this.logger.log(`Creating a new album`);
-    return this.albumService.createAlbum(createAlbumDto);
+    this.logger.log(`Creating a new album by user ${req.user._id}`);
+    return this.albumService.createAlbum(createAlbumDto, req.user); // Pass the user info
   }
 
   @UseGuards(JwtAuthGuard)

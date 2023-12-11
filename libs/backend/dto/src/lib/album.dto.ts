@@ -1,9 +1,14 @@
 // libs/backend/dto/src/lib/album.dto.ts
-import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, IsUrl } from 'class-validator';
+import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, IsUrl, IsMongoId } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Genre } from '@vinylplatz/shared/api'; // Assuming Genre is an enum or similar construct
+import { Genre } from '@vinylplatz/shared/api'; // Ensure this import is correct
+import { ObjectId } from 'mongoose';
 
 export class CreateAlbumDto {
+  
+  @IsMongoId()
+  _Id!: ObjectId;
+
   @IsString()
   @IsNotEmpty()
   title!: string;
@@ -25,6 +30,7 @@ export class CreateAlbumDto {
   @IsUrl()
   coverImageUrl?: string;
 }
+
 
 export class UpdateAlbumDto {
   @IsString()

@@ -1,6 +1,9 @@
+// libs/backend/features/src/lib/album/album.schema.ts
+
 import * as mongoose from 'mongoose';
 
 export interface IAlbumDocument extends mongoose.Document {
+  userId: mongoose.Types.ObjectId;
   title: string;
   artist: string;
   releaseDate: Date;
@@ -12,6 +15,11 @@ export interface IAlbumDocument extends mongoose.Document {
 }
 
 export const AlbumSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // Reference to the User model
+    required: true
+  },
   title: {
     type: String,
     required: true,

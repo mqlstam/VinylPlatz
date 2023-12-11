@@ -3,11 +3,13 @@ import { ObjectId } from 'mongoose';
 
 export interface IAlbum {
   _id?: ObjectId;
+  userId: ObjectId; // Reference to the User
   title: string;
   artist: string;
   releaseDate: Date;
   genre: Genre[]; // Use the Genre enum
   coverImageUrl?: string;
+
 }
 
 // Define a Genre enum

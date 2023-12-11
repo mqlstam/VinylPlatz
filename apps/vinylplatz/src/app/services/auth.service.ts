@@ -1,3 +1,4 @@
+//apps/vinylplatz/src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -34,7 +35,7 @@ export class AuthService {
   }
 
   register(user: { username: string; password: string; email?: string }): Observable<ApiSingleResponse<any>> { // Change the return type
-    return this.http.post<ApiSingleResponse<any>>(`${this.apiUrl}/register`, user); // Use ApiSingleResponse<any>
+    return this.http.post<ApiSingleResponse<any>>(`${this.apiUrl}`, user); // Use ApiSingleResponse<any>
   }
 
   isAuthenticated(): boolean {

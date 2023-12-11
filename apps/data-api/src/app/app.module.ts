@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule, AlbumModule } from '@vinylplatz/backend/features';
+import { UserModule, AlbumModule, TransactionModule } from '@vinylplatz/backend/features';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
@@ -12,7 +12,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       isGlobal: true, // Makes ConfigModule global
     }),
     UserModule, 
-    AlbumModule, 
+    AlbumModule,
+    TransactionModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
