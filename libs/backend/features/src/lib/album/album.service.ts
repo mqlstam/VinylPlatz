@@ -8,16 +8,14 @@ import AlbumRepository from './album.repository';
 export class AlbumService {
   constructor(private readonly albumRepository: AlbumRepository) {}
 
-  async createAlbum(createAlbumDto: CreateAlbumDto, user: IUser): Promise<IAlbum> {
-  
-    if (!user._id) {
-      throw new Error('User ID is undefined');
-    }
-
-    createAlbumDto._Id = user.userId // Use user.userId instead of user._id
-    return this.albumRepository.save(createAlbumDto);
+  async createAlbum(createAlbumDto: CreateAlbumDto, userId: string): Promise<IAlbum> {
+    // Add the userId to the createAlbumDto before saving
+    const albumToCreate = {
+      ...createAlbumDto,
+      userId,
+    };
+    return this.albumRepository.save(albumToCreate);
   }
-  
 
 
   async updateAlbum(id: string, updateAlbumDto: UpdateAlbumDto): Promise<IAlbum> {

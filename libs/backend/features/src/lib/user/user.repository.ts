@@ -4,7 +4,7 @@ import { IUser } from '@vinylplatz/shared/api';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UpdateUserDto } from '@vinylplatz/backend/dto';
+import { UpdateUserDto, CreateUserDto } from '@vinylplatz/backend/dto';
 
 
 @Injectable()
@@ -14,9 +14,8 @@ class UserRepository {
   async findOne(condition: Partial<IUser>): Promise<IUser | null> {
     return this.userModel.findOne(condition as any).exec();
   }
-
-  async save(user: IUser): Promise<IUser> {
-    const newUser = new this.userModel(user);
+  async save(createUserDto: CreateUserDto): Promise<IUser> {
+    const newUser = new this.userModel(createUserDto);
     return newUser.save();
   }
 

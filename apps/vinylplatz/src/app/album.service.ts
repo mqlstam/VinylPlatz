@@ -11,6 +11,9 @@ import { AuthService } from './services/auth.service';
   providedIn: 'root',
 })
 export class AlbumService {
+  getUserId(): import("mongoose").Schema.Types.ObjectId {
+    throw new Error('Method not implemented.');
+  }
   private url = 'http://localhost:3000/api/albums'; // Update with your server URL
 
   constructor(private http: HttpClient, private authService: AuthService) {}

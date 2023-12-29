@@ -3,7 +3,7 @@ import { ObjectId } from 'mongoose';
 
 export interface IAlbum {
   _id?: ObjectId;
-  userId: ObjectId; // Reference to the User
+  userId: string; // Reference to the User
   title: string;
   artist: string;
   releaseDate: Date;
@@ -18,7 +18,7 @@ export enum Genre {
   Pop = 'Pop',
   Jazz = 'Jazz',
   HipHop = 'Hip-Hop',
-  // Add more genres as needed
+  // Add more genres as needed 
 }
 
 // export icreate

@@ -5,9 +5,10 @@ import {
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
-import { IAlbum } from '@vinylplatz/shared/api';
+import { IAlbum, IUser } from '@vinylplatz/shared/api';
 import { JwtAuthGuard } from '../user/jwt-auth.guard';
 import { validateOrReject } from 'class-validator';
+
 
 @Controller('albums')
 export class AlbumController {
@@ -15,18 +16,23 @@ export class AlbumController {
 
   constructor(private readonly albumService: AlbumService) {}
 
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UseGuards(JwtAuthGuard) // Ensure that this endpoint is protected
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
-  async createAlbum(@Body() createAlbumDto: CreateAlbumDto, @Req() req): Promise<IAlbum> {
-    await validateOrReject(createAlbumDto).catch(errors => {
-      throw new BadRequestException('Validation failed', JSON.stringify(errors));
-    });
-
-    this.logger.log(`Creating a new album by user ${req.user._id}`);
-    return this.albumService.createAlbum(createAlbumDto, req.user); // Pass the user info
+  async createAlbum(@Body() createAlbumDto: CreateAlbumDto, @Req() req: any): Promise<IAlbum> {
+    // Check if the user object exists on the request and log the appropriate user ID
+    if (req.user && '_id' in req.user) {
+      this.logger.log(`Creating a new album by user ${req.user._id}`);
+      // Pass the user info from the request to the service
+      return this.albumService.createAlbum(createAlbumDto, req.user);
+    } else {
+      // Handle the case when req.user is not populated or does not have _id
+      throw new BadRequestException('User information is missing from the request');
+    }
   }
+
 
   @UseGuards(JwtAuthGuard)
   @Get()

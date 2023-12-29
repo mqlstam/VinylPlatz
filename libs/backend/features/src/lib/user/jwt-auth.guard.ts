@@ -16,11 +16,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (err || !user) {
       throw err || new UnauthorizedException();
     }
-    console.log('Authenticated user:', user); // Add this line to log the user object
-
-
-    // Here, you can add additional authentication checks if needed
-    // For example, checking user roles or permissions
 
     return user;
   }

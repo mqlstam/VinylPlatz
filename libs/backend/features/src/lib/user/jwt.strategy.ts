@@ -1,3 +1,5 @@
+// libs/backend/features/src/lib/user/jwt.strategy.ts
+
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';

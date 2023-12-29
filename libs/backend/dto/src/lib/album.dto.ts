@@ -6,8 +6,6 @@ import { ObjectId } from 'mongoose';
 
 export class CreateAlbumDto {
   
-  @IsMongoId()
-  _Id!: ObjectId;
 
   @IsString()
   @IsNotEmpty()
