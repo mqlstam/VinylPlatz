@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-4 mb-4" *ngFor="let album of albums">
       <div class="card h-100">
-        <!-- <img *ngIf="album.coverUrl" [src]="album.coverUrl" alt="{{album.title}}" class="card-img-top"> -->
+        <img *ngIf="album.coverImageUrl" [src]="album.coverImageUrl" alt="{{album.title}}" class="card-img-top">
         <div class="card-body">
           <h5 class="card-title">{{ album.title }}</h5>
           <p class="card-text">
@@ -13,7 +13,7 @@
         </div>
         <div class="card-footer">
           <a routerLink="/album/{{ album._id }}" class="btn btn-primary">View Details</a>
-          <button [routerLink]="['/edit', album._id]">Edit</button>
+          <a routerLink="/edit/{{album._id}}" class="btn btn-secondary">Edit</a>
         </div>
       </div>
     </div>

@@ -37,6 +37,7 @@ export class AlbumdetailsComponent implements OnInit {
       next: (apiResponse: ApiSingleResponse<IAlbum>) => {
         if (apiResponse.result) {
           this.album = apiResponse.result;
+          console.log('Album details:', this.album);
         } else {
           this.error = 'Album details not found.';
         }

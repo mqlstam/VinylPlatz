@@ -8,8 +8,8 @@ export interface IAlbum {
   artist: string;
   releaseDate: Date;
   genre: Genre[]; // Use the Genre enum
+  description: string;
   coverImageUrl?: string;
-
 }
 
 // Define a Genre enum
@@ -18,7 +18,10 @@ export enum Genre {
   Pop = 'Pop',
   Jazz = 'Jazz',
   HipHop = 'Hip-Hop',
-  // Add more genres as needed 
+  RenB = 'R&B',
+  Electronic = 'Electronic',
+  Classical = 'Classical',
+  Other = 'Other',
 }
 
 // export icreate

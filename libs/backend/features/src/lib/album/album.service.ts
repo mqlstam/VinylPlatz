@@ -37,4 +37,8 @@ export class AlbumService {
   async deleteAlbum(id: string): Promise<boolean> {
     return this.albumRepository.delete(id);
   }
+
+  async findAlbumsByUser(userId: string): Promise<IAlbum[]> {
+    return this.albumRepository.findByUser(userId);
+  }
 }

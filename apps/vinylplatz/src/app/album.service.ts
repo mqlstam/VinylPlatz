@@ -59,4 +59,10 @@ export class AlbumService {
       catchError(this.handleError)
     );
   }
+
+  getAllByUser(userId: string) {
+    return this.http.get<ApiListResponse<IAlbum>>(`${this.url}/user/${userId}`, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
 }

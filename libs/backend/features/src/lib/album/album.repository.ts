@@ -35,6 +35,10 @@ class AlbumRepository {
   async findById(id: string): Promise<IAlbum | null> {
     return this.albumModel.findById(id).exec();
   }
+
+  async findByUser(userId: string): Promise<IAlbum[]> {
+    return this.albumModel.find({ userId }).exec();
+  }
 }
 
 export default AlbumRepository;

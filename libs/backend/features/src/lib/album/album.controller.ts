@@ -68,5 +68,11 @@ export class AlbumController {
       throw new NotFoundException('Album not found or could not be deleted');
     }
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('user/:userId')
+  async getAlbumsByUser(@Param('userId') userId: string): Promise<IAlbum[]> {
+    return this.albumService.findAlbumsByUser(userId);
+  }
   
 }

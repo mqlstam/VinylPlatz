@@ -14,6 +14,8 @@
   <!-- Removed Description and User as they are not in the IAlbum interface -->
   <p>Release Date: {{ album?.releaseDate | date }}</p>
   <p>Genre: <span *ngFor="let genre of album?.genre; let last = last">{{ genre }}<span *ngIf="!last">, </span></span></p>
+  <!-- description-->
+  <p>Description: {{ album?.description }}</p>
   <!-- Conditional display of cover image -->
   <div *ngIf="album?.coverImageUrl">
     <img [src]="album?.coverImageUrl" alt="{{ album?.title }} cover image">

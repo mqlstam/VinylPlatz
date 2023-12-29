@@ -11,6 +11,7 @@ export interface IAlbumDocument extends mongoose.Document {
   coverImageUrl: string;
   createdAt: Date;
   updatedAt: Date;
+  description: string;
   // Add other fields as needed
 }
 
@@ -49,6 +50,10 @@ export const AlbumSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
+  },
+  description: {
+    type: String,
+    required: false
   }
 
   // Add other fields as needed

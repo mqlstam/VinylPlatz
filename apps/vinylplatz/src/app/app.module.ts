@@ -13,6 +13,7 @@ import { AlbumformComponent } from './albumform/albumform.component';
 import { AlbumlistComponent } from './albumlist/albumlist.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { UserAlbumListComponent } from './user-album-list/user-album-list.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { RegisterComponent } from './register/register.component';
     AlbumformComponent,
     LoginComponent,
     RegisterComponent,
+    UserAlbumListComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@
   import { Observable } from 'rxjs';
   import { ApiSingleResponse } from '@vinylplatz/shared/api'; // Import ApiSingleResponse
   import { jwtDecode } from "jwt-decode"
+  import { Router } from '@angular/router';
 
   @Injectable({
     providedIn: 'root'
@@ -13,7 +14,9 @@
     private tokenKey = 'auth_token';
     private apiUrl = 'http://localhost:3000/api/users'; // Replace with your API URL
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,private router: Router) {
+      
+    }
 
     getToken(): string | null {
       console.log(localStorage.getItem(this.tokenKey));
@@ -39,9 +42,26 @@
     }
 
     isAuthenticated(): boolean {
-      const token = this.getToken();
-      return token !== null && token !== undefined; // Check if token exists
+    const token = this.getToken();
+    console.log("isAuthenticated");
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        return decodedToken.exp > Date.now() / 1000;
+      } catch (error) {
+        console.error("Token decoding failed", error);
+        return false;
+      }
     }
+    return false;
+  }
+
+  handleUnauthorized(): void {
+    localStorage.removeItem(this.tokenKey);
+    // Redirect to the login page
+    this.router.navigate(['/login']);
+  }
+
 
     getCurrentUserId(): string | null {
       const token = this.getToken();
@@ -49,7 +69,6 @@
         try {
           const decodedToken: any = jwtDecode(token); // Replace 'any' with your decoded token type if available
           return decodedToken.sub || null; // Adjust the property name according to your token's payload
-          console.log(' hello');
         } catch (error) {
           console.error("Token decoding failed", error);
           return null;

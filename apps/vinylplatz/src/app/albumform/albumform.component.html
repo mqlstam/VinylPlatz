@@ -1,3 +1,5 @@
+<!-- apps/vinylplatz/src/app/albumform/albumform.component.html -->
+
 <form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="title">Title</label>
@@ -11,18 +13,18 @@
     <!-- validation message -->
   </div>
 
-  <div>
+  <!-- <div>
     <label for="description">Description</label>
     <textarea id="description" formControlName="description"></textarea>
-    <!-- validation message -->
-  </div>
+    validation message
+  </div> -->
 
-  <div>
-    <label for="genre">Genre</label>
-    <select id="genre" formControlName="genre">
-      <option *ngFor="let genre of genreList" [value]="genre">{{ genre }}</option>
-    </select>
-    <!-- validation message -->
+  <div formArrayName="genres">
+    <label>Genres:</label>
+    <div *ngFor="let genre of genreList; let i = index">
+      <input type="checkbox" [formControlName]="i" [id]="'genre-' + i">
+      <label [for]="'genre-' + i">{{ genre }}</label>
+    </div>
   </div>
 
   <div>
@@ -30,6 +32,20 @@
     <input type="date" formControlName="releaseDate" />
     <!-- validation message -->
   </div>
+
+  <!-- description-->
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+    <!-- validation message -->
+  </div>
+
+  <div>
+    <label for="coverImageUrl">Cover Image URL</label>
+    <input id="coverImageUrl" formControlName="coverImageUrl">
+    <!-- validation message -->
+  </div>
+
 
   <button type="submit">Save</button>
 </form>
