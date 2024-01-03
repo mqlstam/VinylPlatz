@@ -5,9 +5,9 @@ import { IAlbum } from './album.interface';
 
 export interface ITransaction {
   _id?: ObjectId;
-  album: ObjectId; // Reference to the album's ObjectId
-  buyer: ObjectId; // Reference to the buyer's ObjectId
-  seller: ObjectId; // Reference to the seller's ObjectId
+  album: string;// Reference to the album's ObjectId
+  buyer: string; // Reference to the buyer's ObjectId
+  seller: string; // Reference to the seller's ObjectId
   price: number; // Price at which the album is sold
   transactionDate: Date; // Date of the transaction
   status: TransactionStatus; // Current status of the transaction

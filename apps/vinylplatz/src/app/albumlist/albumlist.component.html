@@ -7,17 +7,19 @@
           <h5 class="card-title">{{ album.title }}</h5>
           <p class="card-text">
             <strong>Artist:</strong> {{ album.artist }}<br>
-            <strong>Genre:</strong> {{ album.genre }}<br>
-            <strong>Release Year:</strong> {{ album.releaseDate}}
+            <strong>Genre:</strong> {{ album.genre.join(', ') }}<br> <!-- Assuming genre is an array -->
+            <strong>Release Year:</strong> {{ album.releaseDate | date:'yyyy' }} <!-- Format the release date -->
           </p>
         </div>
         <div class="card-footer">
           <a routerLink="/album/{{ album._id }}" class="btn btn-primary">View Details</a>
+          <button (click)="buyAlbum(album)" class="btn btn-success">Buy</button> <!-- Buy button -->
           <a routerLink="/edit/{{album._id}}" class="btn btn-secondary">Edit</a>
         </div>
       </div>
     </div>
   </div>
+
 
   <!-- Pagination or Load More button could go here -->
   <div class="text-center mt-4">
