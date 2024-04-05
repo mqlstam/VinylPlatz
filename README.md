@@ -12,7 +12,6 @@ VinylPlatz is a full-stack web application built with Angular and NestJS, servin
 - Rating and reviewing purchased vinyl records
 - Filtering and sorting vinyl records based on various criteria
 - Transaction history for users
-- Overview of ratings and reviews for each vinyl record
 
 ## Technologies Used
 
@@ -27,7 +26,7 @@ VinylPlatz is a full-stack web application built with Angular and NestJS, servin
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-repo/vinylplatz.git
+git clone https://github.com/mqlstam/vinylplatz/vinylplatz.git
 ```
 
 2. Install dependencies:
