@@ -8,5 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/data-api',
-  
+  roots: ['<rootDir>/src', '<rootDir>/../../libs'], 
 };
