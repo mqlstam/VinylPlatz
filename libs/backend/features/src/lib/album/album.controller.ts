@@ -5,9 +5,8 @@ import {
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
-import { IAlbum, IUser } from '@vinylplatz/shared/api';
+import { IAlbum } from '@vinylplatz/shared/api';
 import { JwtAuthGuard } from '../user/jwt-auth.guard';
-import { validateOrReject } from 'class-validator';
 
 
 @Controller('albums')
