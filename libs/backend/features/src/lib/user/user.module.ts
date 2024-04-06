@@ -1,3 +1,4 @@
+// libs/backend/features/src/lib/user/user.module.ts
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
@@ -6,12 +7,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './user.schema';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
-
+import { ConfigModule } from '@nestjs/config'; // Import ConfigModule
 
 @Module({
-  imports: [    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    ConfigModule, // Add ConfigModule to imports
+  ],
   controllers: [UserController],
-  providers: [UserService, UserRepository, JwtStrategy ],
+  providers: [UserService, UserRepository, JwtStrategy],
   exports: [UserService],
 })
 export class UserModule {}

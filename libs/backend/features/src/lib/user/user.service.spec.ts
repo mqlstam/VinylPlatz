@@ -17,8 +17,11 @@ describe('UserService', () => {
           provide: UserRepository,
           useValue: {
             findOne: jest.fn(),
-            save: jest.fn(),
-            findAll: jest.fn(),
+            save: jest.fn((createUserDto: CreateUserDto) => ({
+              _id: '612345678901234567890123',
+              ...createUserDto,
+            })),
+            findAll: jest.fn(() => []),
             findById: jest.fn(),
             findByIdAndUpdate: jest.fn(),
             delete: jest.fn(),
@@ -30,7 +33,6 @@ describe('UserService', () => {
     service = module.get<UserService>(UserService);
     repository = module.get<UserRepository>(UserRepository);
   });
-
   afterEach(() => {
     jest.resetAllMocks();
   });
