@@ -1,6 +1,6 @@
 // libs/backend/features/src/lib/user/user.service.ts
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import UserRepository from './user.repository';
 import { CreateUserDto, UpdateUserDto } from '@vinylplatz/backend/dto';
 import { IUser } from '@vinylplatz/shared/api';
@@ -15,6 +15,7 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<IUser> {
+    
     return this.userRepository.save(createUserDto);
   }
 
@@ -40,10 +41,10 @@ export class UserService {
 
   async validateUser(username: string, pass: string): Promise<IUserWithMethods | null> {
     const user = await this.userRepository.findOne({ username }) as IUserWithMethods;
-    if (user && await user.comparePassword(pass)) {
-      return user;
+    if (!user || !(await user.comparePassword(pass))) {
+      throw new UnauthorizedException();
     }
-    return null;
+    return user;
   }
   
 async findUserByUsernameOrEmail(username: string, email: string): Promise<IUser | null> {

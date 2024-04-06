@@ -2,7 +2,7 @@
 import { ObjectId } from 'mongoose';
 
 export interface IAlbum {
-  _id?: ObjectId;
+  _id?: string; 
   userId: string; // Reference to the User
   title: string;
   artist: string;

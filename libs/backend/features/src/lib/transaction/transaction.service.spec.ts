@@ -1,111 +1,101 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TransactionService } from './transaction.service';
-import { TransactionRepository } from './transaction.repository';
-import { CreateTransactionDto, UpdateTransactionDto } from '@vinylplatz/backend/dto';
-import { ITransaction, TransactionStatus } from '@vinylplatz/shared/api';
+import { AlbumService } from '../album/album.service';
+import AlbumRepository from '../album/album.repository';
+import { CreateAlbumDto } from '@vinylplatz/backend/dto';
+import { IAlbum, Genre } from '@vinylplatz/shared/api';
+import { NotFoundException } from '@nestjs/common';
 
-describe('TransactionService', () => {
-  let service: TransactionService;
-  let repository: TransactionRepository;
+describe('AlbumService', () => {
+  let service: AlbumService;
+  let repository: AlbumRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        TransactionService,
+        AlbumService,
         {
-          provide: TransactionRepository,
+          provide: AlbumRepository,
           useValue: {
-            create: jest.fn(),
+            save: jest.fn(),
+            findAll: jest.fn(),
             findById: jest.fn(),
-            update: jest.fn(),
+            findByUser: jest.fn(),
+            findByIdAndUpdate: jest.fn(),
+            delete: jest.fn(),
           },
         },
       ],
     }).compile();
 
-    service = module.get<TransactionService>(TransactionService);
-    repository = module.get<TransactionRepository>(TransactionRepository);
+    service = module.get<AlbumService>(AlbumService);
+    repository = module.get<AlbumRepository>(AlbumRepository);
   });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should create a new transaction', async () => {
-    const createTransactionDto: CreateTransactionDto = {
-      albumId: '123',
-      buyerId: '456',
-      sellerId: '789',
-      price: 19.99,
-      transactionDate: new Date('2023-06-01'),
-      status: TransactionStatus.Pending,
-    };
-    const createdTransaction: ITransaction = {
-      _id: '101',
-      album: '123',
-      buyer: '456',
-      seller: '789',
-      price: 19.99,
-      transactionDate: new Date('2023-06-01'),
-      status: TransactionStatus.Pending,
-    };
-    jest.spyOn(repository, 'create').mockResolvedValue(createdTransaction);
+  describe('createAlbum', () => {
+    it('should successfully create and return a new album', async () => {
+      const createAlbumDto: CreateAlbumDto = {
+        title: 'Test Album',
+        artist: 'Test Artist',
+        releaseDate: new Date('2022-01-01'),
+        genre: [Genre.Rock],
+        description: 'Test description',
+        coverImageUrl: 'https://example.com/cover.jpg',
+      };
+      const userId = '612345678901234567890123';
+      const expectedSavedAlbum: IAlbum = {
+        ...createAlbumDto,
+        userId,
+        _id: '612345678901234567890124',
+      };
+      jest.spyOn(repository, 'save').mockResolvedValue(expectedSavedAlbum);
 
-    const result = await service.createTransaction(createTransactionDto);
+      const result = await service.createAlbum(createAlbumDto, userId);
 
-    expect(repository.create).toHaveBeenCalledWith(createdTransaction);
-    expect(result).toEqual(createdTransaction);
-  });
-
-  it('should get a transaction by ID', async () => {
-    const transactionId = '101';
-    const transaction: ITransaction = {
-      _id: '101',
-      album: '123',
-      buyer: '456',
-      seller: '789',
-      price: 19.99,
-      transactionDate: new Date('2023-06-01'),
-      status: TransactionStatus.Pending,
-    };
-    jest.spyOn(repository, 'findById').mockResolvedValue(transaction);
-
-    const result = await service.getTransactionById(transactionId);
-
-    expect(repository.findById).toHaveBeenCalledWith(transactionId);
-    expect(result).toEqual(transaction);
-  });
-
-  it('should create a new transaction', async () => {
-    const createTransactionDto: CreateTransactionDto = {
-      albumId: '123',
-      buyerId: '456',
-      sellerId: '789',
-      price: 19.99,
-      transactionDate: new Date('2023-06-01'),
-      status: TransactionStatus.Pending,
-    };
-    const createdTransaction: ITransaction = {
-      _id: '101', // This will be assigned by the database upon creation
-      album: createTransactionDto.albumId,
-      buyer: createTransactionDto.buyerId,
-      seller: createTransactionDto.sellerId,
-      price: createTransactionDto.price,
-      transactionDate: createTransactionDto.transactionDate,
-      status: createTransactionDto.status,
-    };
-    jest.spyOn(repository, 'create').mockResolvedValue(createdTransaction);
-  
-    const result = await service.createTransaction(createTransactionDto);
-  
-    expect(repository.create).toHaveBeenCalledWith({
-      album: createTransactionDto.albumId,
-      buyer: createTransactionDto.buyerId,
-      seller: createTransactionDto.sellerId,
-      price: createTransactionDto.price,
-      transactionDate: createTransactionDto.transactionDate,
-      status: createTransactionDto.status,
+      expect(repository.save).toHaveBeenCalledWith({
+        ...createAlbumDto,
+        userId,
+      });
+      expect(result).toEqual(expectedSavedAlbum);
     });
-    expect(result).toEqual(createdTransaction);
   });
+
+  describe('findAlbumById', () => {
+    it('should return an album if it exists', async () => {
+      const albumId = '612345678901234567890124';
+      const expectedAlbum: IAlbum = {
+        _id: albumId,
+        userId: '612345678901234567890123',
+        title: 'Test Album',
+        artist: 'Test Artist',
+        releaseDate: new Date('2022-01-01'),
+        genre: [Genre.Rock],
+        description: 'Test description',
+        coverImageUrl: 'https://example.com/cover.jpg',
+      };
+      jest.spyOn(repository, 'findById').mockResolvedValue(expectedAlbum);
+
+      const result = await service.findAlbumById(albumId);
+
+      expect(repository.findById).toHaveBeenCalledWith(albumId);
+      expect(result).toEqual(expectedAlbum);
+    });
+
+    it('should throw a NotFoundException if the album does not exist', async () => {
+      const albumId = 'nonexistent';
+      jest.spyOn(repository, 'findById').mockResolvedValue(null);
+
+      await expect(service.findAlbumById(albumId)).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  // Additional tests can include:
+  // - Testing findAllAlbums for various scenarios including empty results
+  // - Testing updateAlbum for successful update, no update (e.g., album doesn't exist), and partial update scenarios
+  // - Testing deleteAlbum for successful deletion and failure (e.g., album doesn't exist)
+  // - More thorough error handling tests, such as testing for database connection errors
+  
 });

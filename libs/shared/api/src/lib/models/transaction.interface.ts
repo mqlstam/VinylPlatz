@@ -4,7 +4,7 @@ import { IAlbum } from './album.interface';
 
 
 export interface ITransaction {
-  _id?: ObjectId;
+  _id?: string;
   album: string;// Reference to the album's ObjectId
   buyer: string; // Reference to the buyer's ObjectId
   seller: string; // Reference to the seller's ObjectId

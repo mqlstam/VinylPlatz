@@ -29,11 +29,13 @@ export class AlbumService {
   async findAllAlbums(): Promise<IAlbum[]> {
     return this.albumRepository.findAll();
   }
-
-  async findAlbumById(id: string): Promise<IAlbum | null> {
-    return this.albumRepository.findById(id);
+  async findAlbumById(id: string): Promise<IAlbum> {
+    const album = await this.albumRepository.findById(id);
+    if (!album) {
+      throw new NotFoundException(`Album with ID ${id} not found`);
+    }
+    return album;
   }
-
   async deleteAlbum(id: string): Promise<boolean> {
     return this.albumRepository.delete(id);
   }
