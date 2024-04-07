@@ -6,6 +6,8 @@ import { IAlbum, ApiListResponse, ApiSingleResponse } from '@vinylplatz/shared/a
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
@@ -64,5 +66,9 @@ export class AlbumService {
     return this.http.get<ApiListResponse<IAlbum>>(`${this.url}/user/${userId}`, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
+  }
+
+  getRecommendedAlbums(userId: string): Observable<IAlbum[]> {
+    return this.http.get<IAlbum[]>(`${this.url}/recommendations/${userId}`, { headers: this.getHeaders() });
   }
 }

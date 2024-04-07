@@ -14,6 +14,7 @@ import { AlbumlistComponent } from './albumlist/albumlist.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserAlbumListComponent } from './user-album-list/user-album-list.component';
+import { AlbumRecommendationsComponent } from './album-recommendations/album-recommendations.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { UserAlbumListComponent } from './user-album-list/user-album-list.compon
     LoginComponent,
     RegisterComponent,
     UserAlbumListComponent,
+    AlbumRecommendationsComponent,
   ],
   imports: [
     BrowserModule,

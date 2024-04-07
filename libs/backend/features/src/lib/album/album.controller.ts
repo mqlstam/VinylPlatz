@@ -7,13 +7,17 @@ import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
 import { IAlbum } from '@vinylplatz/shared/api';
 import { JwtAuthGuard } from '../user/jwt-auth.guard';
+import { AlbumRecommendationService } from '../album-recommendation/album-recommendation.service';
+
 
 
 @Controller('albums')
 export class AlbumController {
   private readonly logger = new Logger(AlbumController.name);
 
-  constructor(private readonly albumService: AlbumService) {}
+  constructor(private readonly albumService: AlbumService,     
+    private readonly albumRecommendationService: AlbumRecommendationService,
+  ) {}
 
 
   @Post()
@@ -74,4 +78,10 @@ export class AlbumController {
     return this.albumService.findAlbumsByUser(userId);
   }
   
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/recommendations/:userId')
+  async getRecommendedAlbumsForUser(@Param('userId') userId: string) {
+    return this.albumRecommendationService.getRecommendedAlbumsForUser(userId);
+  }
 }

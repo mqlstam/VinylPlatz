@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component'; // Import the RegisterComponent
 import { AuthGuard } from './services/auth.guard'; // Import your AuthGuard
 import { UserAlbumListComponent } from './user-album-list/user-album-list.component'; // Import your UserAlbumListComponent
+import { AlbumRecommendationsComponent } from './album-recommendations/album-recommendations.component'; // Import the component
+
 
 export const appRoutes: Route[] = [
   { path: '', component: AlbumlistComponent, canActivate: [AuthGuard] },
@@ -18,5 +20,6 @@ export const appRoutes: Route[] = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent }, // Add the register route
   { path: 'user-albums', component: UserAlbumListComponent, canActivate: [AuthGuard] }, // Apply the AuthGuard to this route
+  { path: 'recommendations', component: AlbumRecommendationsComponent, canActivate: [AuthGuard] }, // Add the new route
   { path: '**', redirectTo: '' },
 ];

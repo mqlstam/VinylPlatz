@@ -10,8 +10,8 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "composite": true
+    "emitDecoratorMetadata": true 
   },
-  "include": ["src/**/*.ts", "src/lib/album/album.module.ts", "src/lib/album/album.service.ts", "src/lib/user/user.module.ts", "src/lib/user/user.service.ts", "src/lib/album/album.entity.ts", "src/lib/user/user.controller.ts", "src/lib/user/user.repository.ts", "src/lib/user/", "src/lib/album-recommendation/album-recommendation.module.ts", "src"],
+  "include": ["src/**/*.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

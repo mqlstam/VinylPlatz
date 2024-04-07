@@ -11,20 +11,15 @@
             <strong>Release Year:</strong> {{ album.releaseDate | date:'yyyy' }} <!-- Format the release date -->
           </p>
         </div>
-        <div class="card-footer">
-          <a routerLink="/album/{{ album._id }}" class="btn btn-primary">View Details</a>
-          <button (click)="buyAlbum(album)" class="btn btn-success">Buy</button> <!-- Buy button -->
-          <a routerLink="/edit/{{album._id}}" class="btn btn-secondary">Edit</a>
+        <div class="card-footer ">
+          <a routerLink="/album/{{ album._id }}" class="btn btn-primary me-1">View Details</a>
+          <button (click)="buyAlbum(album)" class="btn btn-success me-1">Buy</button> <!-- Buy button -->
+          <a routerLink="/edit/{{album._id}}" class="btn btn-secondary me-1 ">Edit</a>
         </div>
       </div>
     </div>
   </div>
 
-
-  <!-- Pagination or Load More button could go here -->
-  <div class="text-center mt-4">
-    <button class="btn btn-secondary">Load More</button>
-  </div>
 
   <!-- Add New Album Button -->
   <div class="text-center mt-4">

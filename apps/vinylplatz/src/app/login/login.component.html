@@ -1,11 +1,13 @@
-<!-- apps/vinylplatz/src/app/login/login.component.html -->
-
-<div class="container">
+<div class="login-wrapper d-flex justify-content-center align-items-center">
+  <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <h3>Login</h3>
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+          <div class=" ">
+            <h3 class="">Login</h3>
+          </div>
+          <div *ngIf="loginErrorMessage" class="alert alert-danger">
+            {{ loginErrorMessage }}
           </div>
           <div class="card-body">
             <form [formGroup]="loginForm" (ngSubmit)="login()">
@@ -17,12 +19,16 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter your password">
               </div>
-              <button *ngIf="!isLoggedIn" type="submit" class="btn btn-primary">Login</button>
-              <a *ngIf="isLoggedIn" routerLink="/albumlist" class="btn btn-primary">Go to Album List</a>
+              
+              <button *ngIf="!isLoggedIn" type="submit" class="btn btn-primary btn-block mt-3">Login</button>
+              <a *ngIf="isLoggedIn" routerLink="/albumlist" class="btn btn-primary btn-block">Go to Album List</a>
+              
+              <!-- Register Button -->
+              <button *ngIf="!isLoggedIn" routerLink="/register" class="btn btn-secondary btn-block mt-3 ms-1">Register</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

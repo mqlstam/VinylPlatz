@@ -1,0 +1,11 @@
+/* Custom styles for the login page */
+.login-wrapper {
+    min-height: calc(100vh - 56px); /* Subtract navbar height from full viewport height */
+    background-image: linear-gradient(to right, #6a11cb, #2575fc); /* Example gradient */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* You can customize the gradient to match your app's theme */
+  

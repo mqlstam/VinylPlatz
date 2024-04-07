@@ -1,27 +1,31 @@
+// apps/data-api/src/app/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule, AlbumModule, TransactionModule } from '@vinylplatz/backend/features';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Neo4jModule } from '@vinylplatz/backend/neo4j'; // Import Neo4jModule
+import { AlbumRecommendationModule } from '@vinylplatz/backend/features';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Makes ConfigModule global
+      isGlobal: true,
     }),
-    UserModule, 
+    UserModule,
     AlbumModule,
     TransactionModule,
+    AlbumRecommendationModule, 
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('DATABASE_URI'),
-        // additional options here (if needed)
       }),
       inject: [ConfigService],
     }),
+    Neo4jModule, // Import Neo4jModule
   ],
   controllers: [AppController],
   providers: [AppService],
