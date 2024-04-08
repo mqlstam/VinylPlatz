@@ -6,7 +6,6 @@ import {
   IAlbum,
   ApiListResponse,
   ITransaction,
-  TransactionStatus,
 } from '@vinylplatz/shared/api';
 
 @Component({
@@ -18,15 +17,16 @@ export class AlbumlistComponent implements OnInit {
   albums: IAlbum[] = [];
   loading = false;
   error: string | null = null;
+  currentUserId: string | null = null;
 
   constructor(
     private albumService: AlbumService,
-    private transactionService: TransactionService, // Inject the TransactionService
-    private authService: AuthService // Inject AuthService
-
+    private transactionService: TransactionService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.currentUserId = this.authService.getCurrentUserId();
     this.loadAlbums();
   }
 
@@ -34,22 +34,19 @@ export class AlbumlistComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.albumService.getAll().subscribe({
-      next: (apiResponse: ApiListResponse<IAlbum>) => {
-        if (apiResponse.results && Array.isArray(apiResponse.results)) {
-          this.albums = apiResponse.results;
-        } else {
-          this.albums = []; // If 'results' is missing or not an array, set albums to an empty array
-        }
+    this.albumService.getAvailableAlbums().subscribe({
+      next: (albums) => {
+        this.albums = albums;
         this.loading = false;
       },
       error: (err) => {
         this.error = 'Error loading albums. Please try again later.';
         console.error('Error fetching albums:', err);
         this.loading = false;
-      },
+      }
     });
   }
+
 
   deleteAlbum(id: string) {
     if (confirm('Are you sure you want to delete this album?')) {
@@ -64,32 +61,34 @@ export class AlbumlistComponent implements OnInit {
       });
     }
   }
+buyAlbum(album: IAlbum) {
+    const currentUserId = this.authService.getCurrentUserId();
 
-  buyAlbum(album: IAlbum) {
-    const currentUserId = this.authService.getCurrentUserId(); // Get current user ID
     if (!album._id || !currentUserId) {
       console.error('Album ID or User ID is undefined.');
       return;
     }
 
     const transaction: ITransaction = {
-      album: album._id.toString(), // Convert ObjectId to string
-      buyer: currentUserId, // Set the current user as the buyer
-      seller: album.userId, // Assuming album has a userId field for the seller
-      price: 10, // Replace with actual album price
-      transactionDate: new Date(),
-      status: TransactionStatus.Pending
+      album: album._id.toString(),
+      buyer: currentUserId,
+      seller: album.userId,
+      transactionDate: new Date()
     };
 
     this.transactionService.createTransaction(transaction).subscribe({
       next: (createdTransaction) => {
         console.log('Transaction created:', createdTransaction);
-        // Handle post-purchase logic
+        // Handle post-purchase logic, e.g., show a success message
       },
       error: (err) => {
         console.error('Error creating transaction:', err);
-        // Handle error appropriately
+        // Handle error, e.g., show an error message
       }
     });
+  }
+
+  isOwnAlbum(album: IAlbum): boolean {
+    return album.userId === this.currentUserId;
   }
 }

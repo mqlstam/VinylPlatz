@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class TransactionRepository {
+
   constructor(@InjectModel('Transaction') private readonly transactionModel: Model<ITransaction>) {}
 
   async create(transaction: ITransaction): Promise<ITransaction> {
@@ -16,5 +17,17 @@ export class TransactionRepository {
     return this.transactionModel.findById(id).exec();
   }
 
-  // Additional methods can be implemented as needed
+  async findByUser(userId: string): Promise<ITransaction[]> {
+    return this.transactionModel.find({ buyer: userId }).exec();
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const result = await this.transactionModel.deleteOne({ _id: id }).exec();
+    return result.deletedCount > 0;
+  }
+
+
+  async findAll(): Promise<ITransaction[]> {
+    return this.transactionModel.find().exec();
+  }
 }

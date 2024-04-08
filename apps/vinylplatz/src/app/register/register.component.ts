@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router'; // Import Router
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
@@ -14,11 +14,12 @@ import { catchError, throwError } from 'rxjs';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   isRegistered = false;
+  errorMessage = ''; // Variable to store the error message
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router // Inject the Router service
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -33,18 +34,21 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).pipe(
         catchError((error: HttpErrorResponse) => {
-          // Handle specific error cases here if needed
+          if (error.status === 409) {
+            this.errorMessage = 'Username or email already in use';
+          } else if (error.status === 400) {
+            this.errorMessage = 'Invalid user data';
+          } else {
+            this.errorMessage = 'An error occurred. Please try again later.';
+          }
           return throwError(error);
         })
       ).subscribe(
         (response) => {
-          if (response.info && response.info.type === 'object' && response.result) {
-            console.log('Registration successful');
-            this.isRegistered = true;
-            this.router.navigate(['/login']); // Redirect to the login page
-          } else {
-            console.error('Registration failed: Invalid response structure');
-          }
+          console.log('Registration successful');
+
+          this.isRegistered = true;
+          this.router.navigate(['/login']);
         },
         (error) => {
           console.error('Registration failed:', error);

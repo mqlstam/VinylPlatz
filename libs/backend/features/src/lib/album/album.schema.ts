@@ -54,6 +54,11 @@ export const AlbumSchema = new mongoose.Schema({
   description: {
     type: String,
     required: false
+  },
+  purchasedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false
   }
 
   // Add other fields as needed

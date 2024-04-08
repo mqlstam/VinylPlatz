@@ -20,16 +20,12 @@ export const TransactionSchema = new mongoose.Schema({
   },
   buyer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Assuming 'User' is the model name for users
+    ref: 'User',
     required: true
   },
   seller: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Assuming 'User' is the model name for users
-    required: true
-  },
-  price: {
-    type: Number,
+    ref: 'User',
     required: true
   },
   transactionDate: {

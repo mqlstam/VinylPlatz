@@ -12,27 +12,21 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard)
-  @UsePipes(new ValidationPipe())
   async createTransaction(@Body() transactionDto: ITransaction, @Req() req: any): Promise<ITransaction> {
-    if (req.user && '_id' in req.user) {
-      // Add additional logic here if needed, e.g., validating the buyer and seller IDs
-      return this.transactionService.createTransaction(transactionDto);
-    } else {
-      throw new NotFoundException('User information is missing from the request');
-    }
+    transactionDto.buyer = req.user._id;
+    return this.transactionService.createTransaction(transactionDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async getTransactionById(@Param('id') id: string): Promise<ITransaction> {
-    const transaction = await this.transactionService.getTransactionById(id);
-    if (!transaction) {
-      throw new NotFoundException('Transaction not found');
-    }
-    return transaction;
+    return this.transactionService.getTransactionById(id);
   }
 
-  // Additional methods can be implemented as needed, e.g., updating a transaction's status
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getAllTransactions(): Promise<ITransaction[]> {
+    return this.transactionService.getAllTransactions();
+  }
 }

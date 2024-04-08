@@ -1,0 +1,76 @@
+/* Ensure the body has no margin and the font is set for the whole page */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Album Details Card Full Height */
+  .album-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Image within the Album Details */
+  .album-details img {
+    width: 100%; /* Makes the image responsive */
+    height: auto; /* Keep the aspect ratio of the image */
+    border-radius: 0.25rem; /* Optional: Rounds the corners of the image */
+  }
+  
+  /* Card Body Padding */
+  .album-details .card-body {
+    padding: 1rem; /* Adjust padding as necessary */
+  }
+  
+  /* Card Footer */
+  .album-details .card-footer {
+    padding: 0.75rem 1rem; /* Consistent padding with card body */
+    background-color: #f8f9fa; /* Light grey background */
+    border-top: 1px solid #e9ecef; /* Light border for the footer */
+  }
+  
+  /* Loading Spinner and Error Alert Centering */
+  .text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height for vertical centering */
+  }
+  
+  /* Error Alert */
+  .alert-danger {
+    margin-top: 1rem;
+    width: 100%; /* Full width alert */
+    border-radius: 0.25rem; /* Rounded corners for the alert */
+  }
+  
+  /* Button Styling */
+  .btn-danger {
+    background-color: #dc3545; /* Bootstrap danger color */
+    border: none;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d; /* Bootstrap secondary color */
+    border: none;
+  }
+  
+  /* Hover effects for buttons */
+  .btn:hover {
+    opacity: 0.85;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .album-details {
+      height: auto; /* On smaller screens, we allow the card to adjust its height automatically */
+    }
+    .album-details img {
+      max-height: 300px; /* Limits image size on smaller screens */
+      object-fit: cover; /* Keeps the aspect ratio while covering the div */
+    }
+  }
+  
+  /* Add additional custom styles as needed */
+  

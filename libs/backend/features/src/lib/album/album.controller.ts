@@ -56,8 +56,12 @@ export class AlbumController {
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   @UsePipes(new ValidationPipe())
-  async updateAlbum(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto): Promise<IAlbum> {
-    return this.albumService.updateAlbum(id, updateAlbumDto);
+  async updateAlbum(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto, @Req() req: any): Promise<IAlbum> {
+    if (req.user && '_id' in req.user) {
+      return this.albumService.updateAlbum(req.user._id, id, updateAlbumDto);
+    } else {
+      throw new NotFoundException('User information is missing from the request');
+    }
   }
 
   @UseGuards(JwtAuthGuard)
@@ -84,4 +88,17 @@ export class AlbumController {
   async getRecommendedAlbumsForUser(@Param('userId') userId: string) {
     return this.albumRecommendationService.getRecommendedAlbumsForUser(userId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('purchased/:userId')
+  async getPurchasedAlbumsByUser(@Param('userId') userId: string): Promise<IAlbum[]> {
+    return this.albumService.findPurchasedAlbumsByUser(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('available')
+  async getAvailableAlbums(): Promise<IAlbum[]> {
+    return this.albumService.findAvailableAlbums();
+  }
+
 }

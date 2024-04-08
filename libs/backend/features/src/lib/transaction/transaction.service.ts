@@ -7,7 +7,12 @@ export class TransactionService {
   constructor(private readonly transactionRepository: TransactionRepository) {}
 
   async createTransaction(transactionDto: ITransaction): Promise<ITransaction> {
-    return this.transactionRepository.create(transactionDto);
+    const createdTransaction = await this.transactionRepository.create(transactionDto);
+
+    // Update the album's purchasedBy field
+    await this.albumService.updateAlbumPurchasedBy(transactionDto.album, transactionDto.buyer);
+
+    return createdTransaction;
   }
 
   async getTransactionById(id: string): Promise<ITransaction> {
@@ -17,5 +22,8 @@ export class TransactionService {
     }
     return transaction;
   }
-  // Additional methods can be implemented as needed
+
+  async getAllTransactions(): Promise<ITransaction[]> {
+    return this.transactionRepository.findAll();
+  }
 }

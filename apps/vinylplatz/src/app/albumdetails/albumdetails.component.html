@@ -1,31 +1,43 @@
-<div *ngIf="loading" class="text-center">
+<!-- Loading Spinner -->
+<div *ngIf="loading" class="text-center mt-4">
   <div class="spinner-border text-primary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
 
-<div *ngIf="error" class="alert alert-danger" role="alert">
+<!-- Error Alert -->
+<div *ngIf="error" class="alert alert-danger mt-4" role="alert">
   {{ error }}
 </div>
 
-<div *ngIf="album" class="album-details">
-  <h2>{{ album?.title }}</h2>
-  <p>Artist: {{ album?.artist }}</p>
-  <!-- Removed Description and User as they are not in the IAlbum interface -->
-  <p>Release Date: {{ album?.releaseDate | date }}</p>
-  <p>Genre: <span *ngFor="let genre of album?.genre; let last = last">{{ genre }}<span *ngIf="!last">, </span></span></p>
-  <!-- description-->
-  <p>Description: {{ album?.description }}</p>
-  <!-- Conditional display of cover image -->
-  <div *ngIf="album?.coverImageUrl">
-    <img [src]="album?.coverImageUrl" alt="{{ album?.title }} cover image">
+<!-- Album Details -->
+<div *ngIf="album" class="container mt-4">
+  <div class="album-details card shadow-lg mb-5 bg-white rounded">
+    <div class="row g-0">
+      <div class="col-md-4" *ngIf="album?.coverImageUrl">
+        <img [src]="album?.coverImageUrl" alt="{{ album?.title }} cover" class="img-fluid">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h2 class="card-title">{{ album?.title }}</h2>
+          <p class="card-text">
+            <strong>Artist:</strong> {{ album?.artist }}<br>
+            <strong>Release Date:</strong> {{ album?.releaseDate | date }}<br>
+            <strong>Genre:</strong> 
+            <span *ngFor="let genre of album?.genre; let last = last">
+              {{ genre }}<span *ngIf="!last">, </span>
+            </span>
+          </p>
+          <p class="card-text">
+            <strong>Description:</strong> {{ album?.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Actions -->
+    <div class="card-footer">
+      <button *ngIf="album" (click)="deleteAlbum()" class="btn btn-danger me-1">Delete Album</button>
+      <button routerLink="/list" class="btn btn-secondary">Back to List</button>
+    </div>
   </div>
-
-  <!-- Optionally, add a delete button -->
-  <button *ngIf="album" (click)="deleteAlbum()" class="btn btn-danger">
-    Delete Album
-  </button>
-  
-  <!-- Back to List Button -->
-  <button routerLink="/list" class="btn btn-secondary">Back to List</button>
 </div>

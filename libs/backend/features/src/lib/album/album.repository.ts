@@ -39,6 +39,14 @@ class AlbumRepository {
   async findByUser(userId: string): Promise<IAlbum[]> {
     return this.albumModel.find({ userId }).exec();
   }
+
+  async findPurchasedByUser(userId: string): Promise<IAlbum[]> {
+    return this.albumModel.find({ purchasedBy: userId }).exec();
+  }
+
+  async findAvailable(): Promise<IAlbum[]> {
+    return this.albumModel.find({ purchasedBy: { $exists: false } }).exec();
+  }
 }
 
 export default AlbumRepository;
