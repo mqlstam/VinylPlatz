@@ -7,6 +7,9 @@ import { UserModule, AlbumModule, TransactionModule } from '@vinylplatz/backend/
 import { MongooseModule } from '@nestjs/mongoose';
 import { Neo4jModule } from '@vinylplatz/backend/neo4j'; // Import Neo4jModule
 import { AlbumRecommendationModule } from '@vinylplatz/backend/features';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { BackendErrorInterceptor } from './interceptors/backenderror.interceptor';
+
 
 
 @Module({
@@ -28,6 +31,12 @@ import { AlbumRecommendationModule } from '@vinylplatz/backend/features';
     Neo4jModule, // Import Neo4jModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: BackendErrorInterceptor,
+    },
+    
+  ],
 })
 export class AppModule {}

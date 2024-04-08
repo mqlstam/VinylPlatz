@@ -1,0 +1,9 @@
+/* Add this to your styles.css or a relevant stylesheet */
+.custom-snackbar {
+    z-index: 10000 !important; /* High z-index to ensure it is on top */
+    position: fixed !important; /* Fixed position to stay in place */
+    top: 0 !important; /* Align to the top */
+    left: 0 !important; /* Align to the left */
+    right: 0 !important; /* Align to the right to take full width */
+  }
+  

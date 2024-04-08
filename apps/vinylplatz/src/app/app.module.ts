@@ -17,6 +17,7 @@ import { UserAlbumListComponent } from './user-album-list/user-album-list.compon
 import { AlbumRecommendationsComponent } from './album-recommendations/album-recommendations.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     FormsModule,
     HttpClientModule,
