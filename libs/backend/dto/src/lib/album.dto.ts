@@ -33,6 +33,10 @@ export class CreateAlbumDto {
   @IsUrl()
   @IsNotEmpty()
   coverImageUrl?: string;
+  @IsMongoId()
+  @IsOptional()
+  purchasedBy?: string;
+
 }
 
 
@@ -62,4 +66,7 @@ export class UpdateAlbumDto {
   @IsOptional()
   @IsUrl()
   coverImageUrl?: string;
+  @IsMongoId()
+  @IsOptional()
+  purchasedBy?: string;
 }

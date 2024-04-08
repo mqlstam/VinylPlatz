@@ -58,11 +58,16 @@ export class AlbumController {
   @UsePipes(new ValidationPipe())
   async updateAlbum(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto, @Req() req: any): Promise<IAlbum> {
     if (req.user && '_id' in req.user) {
-      return this.albumService.updateAlbum(req.user._id, id, updateAlbumDto);
+      const updatedAlbum = await this.albumService.updateAlbum(req.user._id, id, updateAlbumDto);
+      if (!updatedAlbum) {
+        throw new NotFoundException('Album not found or could not be updated');
+      }
+      return updatedAlbum;
     } else {
       throw new NotFoundException('User information is missing from the request');
     }
   }
+  
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
@@ -100,5 +105,5 @@ export class AlbumController {
   async getAvailableAlbums(): Promise<IAlbum[]> {
     return this.albumService.findAvailableAlbums();
   }
-
 }
+

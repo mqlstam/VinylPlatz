@@ -1,7 +1,6 @@
 // libs/backend/dto/src/lib/transaction.dto.ts
 import { IsNotEmpty, IsDate, IsEnum, IsMongoId, IsNumber, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TransactionStatus } from '@vinylplatz/shared/api'; // Assuming TransactionStatus is an enum
 
 export class CreateTransactionDto {
   @IsMongoId()
@@ -24,9 +23,6 @@ export class CreateTransactionDto {
   @Type(() => Date)
   transactionDate!: Date;
 
-  @IsEnum(TransactionStatus)
-  @IsNotEmpty()
-  status!: TransactionStatus;
 }
 
 export class UpdateTransactionDto {
@@ -55,7 +51,4 @@ export class UpdateTransactionDto {
   @Type(() => Date)
   transactionDate?: Date;
 
-  @IsEnum(TransactionStatus)
-  @IsOptional()
-  status?: TransactionStatus;
 }

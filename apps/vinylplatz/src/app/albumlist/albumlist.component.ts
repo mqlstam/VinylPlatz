@@ -61,7 +61,7 @@ export class AlbumlistComponent implements OnInit {
       });
     }
   }
-buyAlbum(album: IAlbum) {
+  buyAlbum(album: IAlbum) {
     const currentUserId = this.authService.getCurrentUserId();
 
     if (!album._id || !currentUserId) {

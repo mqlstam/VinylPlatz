@@ -18,8 +18,8 @@ export class AlbumService {
   }
 
 
-  async updateAlbum(userId: string, id: string, updateAlbumDto: UpdateAlbumDto): Promise<IAlbum> {
-    const album = await this.albumRepository.findById(id);
+  async updateAlbum(userId: string, id: string, updateAlbumDto: UpdateAlbumDto): Promise<IAlbum | null> {
+        const album = await this.albumRepository.findById(id);
     if (!album) {
       throw new NotFoundException(`Album with ID ${id} not found`);
     }
@@ -27,9 +27,9 @@ export class AlbumService {
     if (album.userId.toString() !== userId) {
       throw new ForbiddenException('You are not allowed to edit this album');
     }
-  
-    const updatedAlbum = await this.albumRepository.findByIdAndUpdate(id, updateAlbumDto, { new: true });
+    const updatedAlbum = await this.albumRepository.findByIdAndUpdate(id, updateAlbumDto, { new: true })!;
     return updatedAlbum;
+
   }
 
   async findAllAlbums(): Promise<IAlbum[]> {
@@ -57,8 +57,8 @@ export class AlbumService {
   async findAvailableAlbums(): Promise<IAlbum[]> {
     return this.albumRepository.findAvailable();
   }
-  async updateAlbumPurchasedBy(albumId: string, userId: string): Promise<void> {
-    await this.albumRepository.findByIdAndUpdate(albumId, { purchasedBy: userId });
-  }
 
+  async updateAlbumPurchasedBy(albumId: string, userId: string): Promise<void> {
+    await this.albumRepository.findByIdAndUpdate(albumId, { purchasedBy: userId }, { new: true });
+  }
 }

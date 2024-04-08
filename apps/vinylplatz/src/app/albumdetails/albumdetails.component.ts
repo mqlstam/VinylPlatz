@@ -28,11 +28,11 @@ export class AlbumdetailsComponent implements OnInit {
       this.getAlbum(id);
     }
   }
-
   getAlbum(id: string) {
+    console.log('Fetching album with id:', id);
     this.loading = true;
     this.error = null;
-
+    
     this.albumService.get(id).subscribe({
       next: (apiResponse: ApiSingleResponse<IAlbum>) => {
         if (apiResponse.result) {

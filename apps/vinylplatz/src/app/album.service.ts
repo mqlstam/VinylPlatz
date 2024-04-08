@@ -76,8 +76,8 @@ export class AlbumService {
     return this.http.get<IAlbum[]>(`${this.url}/purchased/${userId}`, { headers: this.getHeaders() });
   }
 
+
   getAvailableAlbums(): Observable<IAlbum[]> {
     return this.http.get<IAlbum[]>(`${this.url}/available`, { headers: this.getHeaders() });
   }
-
 }
