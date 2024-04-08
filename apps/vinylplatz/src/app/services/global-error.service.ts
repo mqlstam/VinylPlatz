@@ -10,6 +10,7 @@ export class GlobalErrorService {
   constructor(private snackBar: MatSnackBar) {}
 
   public showError(message: string) {
+    
     this.snackBar.open(message, 'Close', {
       duration: 5000,
       verticalPosition: 'top', // Display the snackbar at the top

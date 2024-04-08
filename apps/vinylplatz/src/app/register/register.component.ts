@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router'; // Import Router
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'vinylplatz-register',
@@ -29,7 +31,12 @@ export class RegisterComponent implements OnInit {
 
   register(): void {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe(
+      this.authService.register(this.registerForm.value).pipe(
+        catchError((error: HttpErrorResponse) => {
+          // Handle specific error cases here if needed
+          return throwError(error);
+        })
+      ).subscribe(
         (response) => {
           if (response.info && response.info.type === 'object' && response.result) {
             console.log('Registration successful');
