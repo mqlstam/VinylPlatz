@@ -15,7 +15,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserAlbumListComponent } from './user-album-list/user-album-list.component';
 import { AlbumRecommendationsComponent } from './album-recommendations/album-recommendations.component';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { AlbumRecommendationsComponent } from './album-recommendations/album-rec
     RegisterComponent,
     UserAlbumListComponent,
     AlbumRecommendationsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -35,8 +37,9 @@ import { AlbumRecommendationsComponent } from './album-recommendations/album-rec
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+  ],  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

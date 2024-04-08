@@ -12,7 +12,7 @@ import { AlbumRecommendationsComponent } from './album-recommendations/album-rec
 
 export const appRoutes: Route[] = [
   { path: '', component: AlbumlistComponent, canActivate: [AuthGuard] },
-  { path: 'about', component: AboutComponent, canActivate: [AuthGuard] },
+  { path: 'about', component: AboutComponent },
   { path: 'list', component: AlbumlistComponent, canActivate: [AuthGuard] }, // Apply the AuthGuard to this route
   { path: 'add', component: AlbumformComponent, canActivate: [AuthGuard] }, // You might want to protect this route as well
   { path: 'album/:id', component: AlbumdetailsComponent, canActivate: [AuthGuard] },
