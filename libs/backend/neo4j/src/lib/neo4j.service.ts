@@ -42,7 +42,8 @@ export class Neo4jService {
         tx.run(query, {
           userId: parameters.userId.toString(), // Convert to string if necessary
           username: parameters.username,
-          email: parameters.email
+          email: parameters.email,
+          friendId: parameters.friendId
         })
       );
       this.logger.log('Write operation completed successfully'); // Log successful write operation

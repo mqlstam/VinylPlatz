@@ -1,22 +1,54 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+// libs/backend/features/src/lib/album/album.service.ts
+import { Injectable, NotFoundException, Logger, ForbiddenException } from '@nestjs/common';
 import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
-import { IAlbum, IUser } from '@vinylplatz/shared/api'; // Assuming IUser is correctly imported
+import { IAlbum, IUser } from '@vinylplatz/shared/api';
 import AlbumRepository from './album.repository';
-
+import { Neo4jService } from '@vinylplatz/backend/neo4j';
 
 @Injectable()
 export class AlbumService {
-  constructor(private readonly albumRepository: AlbumRepository) {}
+  private readonly logger = new Logger(AlbumService.name);
+
+  constructor(
+    private readonly albumRepository: AlbumRepository,
+    private readonly neo4jService: Neo4jService,
+  ) {}
 
   async createAlbum(createAlbumDto: CreateAlbumDto, userId: string): Promise<IAlbum> {
-    // Add the userId to the createAlbumDto before saving
-    const albumToCreate = {
-      ...createAlbumDto,
-      userId,
+    this.logger.log('Starting album creation');
+  
+    let createdAlbum;
+    try {
+      createdAlbum = await this.albumRepository.save(createAlbumDto);
+      this.logger.log(`Album successfully saved in the database with ID: ${createdAlbum._id}`);
+    } catch (error) {
+      this.logger.error('Error saving album to the database', error);
+      throw new Error('Album creation failed at the database save step');
+    }
+  
+    // Check if the album title is defined
+    if (typeof createAlbumDto.title === 'undefined' || createAlbumDto.title === null) {
+      throw new Error('Album creation failed, title is undefined or null');
+    }
+  
+    // Create an album node in Neo4j using the album title
+    const query = `
+      CREATE (a:Album {title: $title})
+    `;
+    const parameters = {
+      title: createAlbumDto.title,
     };
-    return this.albumRepository.save(albumToCreate);
+  
+    try {
+      await this.neo4jService.write(query, parameters);
+      this.logger.log(`Album node successfully created in Neo4j with title: ${createAlbumDto.title}`);
+    } catch (error) {
+      this.logger.error('Error creating album node in Neo4j', error);
+      throw new Error('Album creation failed at the Neo4j node creation step');
+    }
+  
+    return createdAlbum;
   }
-
 
   async updateAlbum(userId: string, id: string, updateAlbumDto: UpdateAlbumDto): Promise<IAlbum | null> {
         const album = await this.albumRepository.findById(id);
