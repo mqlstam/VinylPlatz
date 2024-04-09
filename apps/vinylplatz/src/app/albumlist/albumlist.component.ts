@@ -68,8 +68,8 @@ loadAlbums() {
   buyAlbum(album: IAlbum) {
     const currentUserId = this.authService.getCurrentUserId();
 
-    if (!album._id || !currentUserId) {
-      console.error('Album ID or User ID is undefined.');
+    if (!album._id || !currentUserId || album.userId === currentUserId) {
+      console.error('Cannot buy your own album or album/user ID is undefined.');
       return;
     }
 
@@ -77,7 +77,7 @@ loadAlbums() {
       albumId: album._id.toString(),
       buyerId: currentUserId,
       sellerId: album.userId,
-      transactionDate: new Date()
+      transactionDate: new Date(),
     };
 
     this.transactionService.createTransaction(transaction).subscribe({
@@ -88,11 +88,15 @@ loadAlbums() {
       error: (err) => {
         console.error('Error creating transaction:', err);
         // Handle error, e.g., show an error message
-      }
+      },
     });
   }
 
+
+
   isOwnAlbum(album: IAlbum): boolean {
-    return album.userId === this.currentUserId;
+    const currentUserId = this.authService.getCurrentUserId();
+    return album.userId === currentUserId;
   }
+
 }

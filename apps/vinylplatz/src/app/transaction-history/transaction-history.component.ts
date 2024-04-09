@@ -1,6 +1,7 @@
+// apps/vinylplatz/src/app/transaction-history/transaction-history.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../services/transaction.service';
-import { ITransaction } from '@vinylplatz/shared/api';
 
 @Component({
   selector: 'vinylplatz-transaction-history',
@@ -8,7 +9,7 @@ import { ITransaction } from '@vinylplatz/shared/api';
   styleUrls: ['./transaction-history.component.css']
 })
 export class TransactionHistoryComponent implements OnInit {
-  transactions: ITransaction[] = [];
+  transactions: any[] = [];
   loading = false;
   error: string | null = null;
 
@@ -20,18 +21,15 @@ export class TransactionHistoryComponent implements OnInit {
 
   loadTransactionHistory() {
     this.loading = true;
-    this.error = null;
-  
-    this.transactionService.getAllTransactionsWithNames().subscribe({
-      next: (transactions) => {
-        this.transactions = transactions;
+    this.transactionService.getAllTransactions().subscribe(
+      (response) => {
+        this.transactions = response.results || [];
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Error loading transaction history:', err);
-        this.error = 'Error loading transaction history. Please try again later.';
+      (error) => {
+        this.error = error.message;
         this.loading = false;
       }
-    });
+    );
   }
 }

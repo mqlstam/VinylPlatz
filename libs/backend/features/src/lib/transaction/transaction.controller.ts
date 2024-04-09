@@ -48,13 +48,10 @@ export class TransactionController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getAllTransactions(): Promise<ITransaction[]> {
-    
-    return this.transactionService.getAllTransactions();
+  async getAllTransactions(): Promise<any[]> {
+    return this.transactionService.getAllTransactionsWithNames();
   }
 
-  @Get(':id/names')
-  async getTransactionWithNames(@Param('id') id: string): Promise<any> {
-    return this.transactionService.getTransactionWithNames(id);
-  }
+
+
 }

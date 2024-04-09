@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule, AlbumModule, TransactionModule } from '@vinylplatz/backend/features';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Neo4jModule } from '@vinylplatz/backend/neo4j'; // Import Neo4jModule
+import { Neo4jModule } from '@vinylplatz/backend/neo4j';
 import { AlbumRecommendationModule } from '@vinylplatz/backend/features';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { BackendErrorInterceptor } from './interceptors/backenderror.interceptor';

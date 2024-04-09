@@ -41,16 +41,10 @@ export class TransactionService {
     );
   }
 
-  getAllTransactions(): Observable<ITransaction[]> {
+  getAllTransactions(): Observable<ApiListResponse<ITransaction>> {
     return this.http.get<ApiListResponse<ITransaction>>(this.baseUrl, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError),
-      map(response => response.results || []) // Assuming the backend returns an array in the 'results' property
-    );
-  }
-  
-  getAllTransactionsWithNames(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/with-names`, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
+  
 }

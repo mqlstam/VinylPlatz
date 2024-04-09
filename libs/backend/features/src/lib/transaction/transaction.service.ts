@@ -2,13 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ITransaction } from '@vinylplatz/shared/api';
 import { TransactionRepository } from './transaction.repository';
 import { AlbumService } from '../album/album.service';
+import { UserService } from '../user/user.service'; // Import UserService
 
 @Injectable()
 export class TransactionService {
-  userService: any;
   constructor(
     private readonly transactionRepository: TransactionRepository,
-    private readonly albumService: AlbumService
+    private readonly albumService: AlbumService,
+    private readonly userService: UserService // Inject UserService
   ) {}
 
   async createTransaction(transactionDto: ITransaction): Promise<ITransaction> {
@@ -32,22 +33,29 @@ export class TransactionService {
     return this.transactionRepository.findAll();
   }
 
-  async getTransactionWithNames(transactionId: string): Promise<any> {
-    const transaction = await this.transactionRepository.findById(transactionId);
-    if (!transaction) {
-      throw new NotFoundException(`Transaction with ID ${transactionId} not found`);
-    }
+  async getAllTransactionsWithNames(): Promise<any[]> {
+    const transactions = await this.transactionRepository.findAll();
 
-    const album = await this.albumService.findAlbumById(transaction.albumId);
-    const buyer = await this.userService.findUserById(transaction.buyerId);
-    const seller = await this.userService.findUserById(transaction.sellerId);
+    const transactionsWithNames = await Promise.all(
+      transactions.map(async (transaction) => {
+        const album = await this.albumService.findAlbumById(transaction.albumId);
+        const buyer = await this.userService.findUserById(transaction.buyerId);
+        const seller = await this.userService.findUserById(transaction.sellerId);
+        console.log('Album:', album);
+        console.log('Buyer:', buyer);
+        console.log('Seller:', seller);
 
-    return {
-      album: album.title, // Replace with the desired album property (e.g., title, artist)
-      buyer: `${buyer.firstName} ${buyer.lastName}`, // Replace with the desired user property
-      seller: `${seller.firstName} ${seller.lastName}`, // Replace with the desired user property
-      transactionDate: transaction.transactionDate,
-      // Add other properties as needed
-    };
+        return {
+          album: album.title, // Replace with the desired album property (e.g., title, artist)
+          buyer: buyer?.username, // Replace with the desired user property (e.g., username)
+          seller: seller?.username, // Replace with the desired user property (e.g., username)
+          transactionDate: transaction.transactionDate,
+          // Add other properties as needed
+          
+        };
+      })
+    );
+
+    return transactionsWithNames;
   }
 }

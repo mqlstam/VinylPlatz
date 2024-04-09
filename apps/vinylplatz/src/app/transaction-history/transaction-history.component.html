@@ -15,7 +15,7 @@
             <div *ngIf="transactions.length === 0; else transactionsList">
               <p>No transactions found.</p>
             </div>
-          
+  
             <ng-template #transactionsList>
               <tr *ngFor="let transaction of transactions">
                 <td>{{ transaction.album }}</td>
@@ -27,7 +27,7 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </div>  
   
     <div *ngIf="loading" class="text-center mt-4">
       <div class="spinner-border text-primary" role="status">

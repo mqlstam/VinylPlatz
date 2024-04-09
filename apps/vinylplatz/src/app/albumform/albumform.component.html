@@ -1,51 +1,47 @@
-<!-- apps/vinylplatz/src/app/albumform/albumform.component.html -->
+    <div class="container mt-4">
+      <form [formGroup]="albumForm" (ngSubmit)="onSubmit()" class="card shadow-lg mb-5 bg-white rounded">
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input id="title" formControlName="title" class="form-control">
+            <!-- validation message -->
+          </div>
 
-<form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="title">Title</label>
-    <input id="title" formControlName="title">
-    <!-- validation message -->
-  </div>
+          <div class="mb-3">
+            <label for="artist" class="form-label">Artist</label>
+            <input id="artist" formControlName="artist" class="form-control">
+            <!-- validation message -->
+          </div>
 
-  <div>
-    <label for="artist">Artist</label>
-    <input id="artist" formControlName="artist">
-    <!-- validation message -->
-  </div>
+          <div class="mb-3" formArrayName="genres">
+            <label class="form-label">Genres:</label>
+            <div *ngFor="let genre of genreList; let i = index" class="form-check">
+              <input type="checkbox" [formControlName]="i" [id]="'genre-' + i" class="form-check-input">
+              <label [for]="'genre-' + i" class="form-check-label">{{ genre }}</label>
+            </div>
+          </div>
 
-  <!-- <div>
-    <label for="description">Description</label>
-    <textarea id="description" formControlName="description"></textarea>
-    validation message
-  </div> -->
+          <div class="mb-3">
+            <label for="releaseDate" class="form-label">Release Date</label>
+            <input type="date" formControlName="releaseDate" class="form-control"/>
+            <!-- validation message -->
+          </div>
 
-  <div formArrayName="genres">
-    <label>Genres:</label>
-    <div *ngFor="let genre of genreList; let i = index">
-      <input type="checkbox" [formControlName]="i" [id]="'genre-' + i">
-      <label [for]="'genre-' + i">{{ genre }}</label>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" formControlName="description" class="form-control"></textarea>
+            <!-- validation message -->
+          </div>
+
+          <div class="mb-3">
+            <label for="coverImageUrl" class="form-label">Cover Image URL</label>
+            <input id="coverImageUrl" formControlName="coverImageUrl" class="form-control">
+            <!-- validation message -->
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
     </div>
-  </div>
-
-  <div>
-    <label for="releaseDate">Release Date</label>
-    <input type="date" formControlName="releaseDate" />
-    <!-- validation message -->
-  </div>
-
-  <!-- description-->
-  <div>
-    <label for="description">Description</label>
-    <textarea id="description" formControlName="description"></textarea>
-    <!-- validation message -->
-  </div>
-
-  <div>
-    <label for="coverImageUrl">Cover Image URL</label>
-    <input id="coverImageUrl" formControlName="coverImageUrl">
-    <!-- validation message -->
-  </div>
-
-
-  <button type="submit">Save</button>
-</form>
