@@ -1,13 +1,14 @@
-// libs/backend/neo4j/neo4j.service.ts
-import { Injectable, Inject } from '@nestjs/common';
+// libs/backend/neo4j/src/lib/neo4j.service.ts
+import { Injectable } from '@nestjs/common';
 import { Driver, Session } from 'neo4j-driver';
+import * as neo4j from 'neo4j-driver';
 
 @Injectable()
 export class Neo4jService {
   private driver: Driver;
 
-  constructor(@Inject('NEO4J_DRIVER') driver: Driver) {
-    this.driver = driver;
+  constructor() {
+    this.driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'password'));
   }
 
   getReadSession(database?: string): Session {
@@ -25,10 +26,6 @@ export class Neo4jService {
         tx.run(query, parameters)
       );
       return result.records;
-    } catch (error) {
-      console.error('Error executing Neo4j read query:', error);
-      // Add additional error handling or logging here
-      throw error; // Rethrow the error if needed
     } finally {
       await session.close();
     }
@@ -41,10 +38,6 @@ export class Neo4jService {
         tx.run(query, parameters)
       );
       return result.records;
-    } catch (error) {
-      console.error('Error executing Neo4j write query:', error);
-      // Add additional error handling or logging here
-      throw error; // Rethrow the error if needed
     } finally {
       await session.close();
     }

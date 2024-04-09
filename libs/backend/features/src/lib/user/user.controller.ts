@@ -11,6 +11,7 @@ import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { validateOrReject } from 'class-validator';
+import { UserRelationshipService } from '../user-relationship/user-relationship.service';
 
 @Controller('users')
 export class UserController {
@@ -18,7 +19,8 @@ export class UserController {
 
   constructor(
     private readonly userService: UserService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly userRelationshipService: UserRelationshipService,
   ) {}
 
   @Post()
@@ -111,4 +113,17 @@ export class UserController {
         }
       }
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Post(':userId/friends/:friendId')
+    async addFriend(@Param('userId') userId: string, @Param('friendId') friendId: string) {
+      await this.userRelationshipService.addFriend(userId, friendId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put(':userId/interested-genres')
+    async updateInterestedGenres(@Param('userId') userId: string, @Body('genres') genres: string[]) {
+      return this.userService.updateInterestedGenres(userId, genres);
+    }
+  
   }

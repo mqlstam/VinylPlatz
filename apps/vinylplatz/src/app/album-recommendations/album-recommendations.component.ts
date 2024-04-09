@@ -1,3 +1,4 @@
+// apps/vinylplatz/src/app/album-recommendations/album-recommendations.component.ts
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album.service';
 import { AuthService } from '../services/auth.service';

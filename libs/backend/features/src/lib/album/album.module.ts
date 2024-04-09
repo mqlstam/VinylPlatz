@@ -10,7 +10,7 @@ import { AlbumRecommendationModule } from '../album-recommendation/album-recomme
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Album', schema: AlbumSchema }]),
-    ConfigModule, // Add ConfigModule to imports
+    ConfigModule,
     AlbumRecommendationModule,
   ],
   controllers: [AlbumController],

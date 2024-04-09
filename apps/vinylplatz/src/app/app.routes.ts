@@ -10,6 +10,8 @@ import { UserAlbumListComponent } from './user-album-list/user-album-list.compon
 import { AlbumRecommendationsComponent } from './album-recommendations/album-recommendations.component'; // Import the component
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component'; // Import the component
 import { PurchasedAlbumsComponent } from './purchased/purchased.component';
+import { AddFriendComponent } from './add-friend/add-friend.component';
+import { InterestedGenresComponent } from './interested-genres/interested-genres.component';
 
 export const appRoutes: Route[] = [
   { path: '', component: AlbumlistComponent, canActivate: [AuthGuard] },
@@ -25,5 +27,9 @@ export const appRoutes: Route[] = [
 
   { path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard] }, // Apply the AuthGuard to this route
   { path: 'purchased', component: PurchasedAlbumsComponent, canActivate: [AuthGuard]},
+  { path: 'add-friend', component: AddFriendComponent, canActivate: [AuthGuard] },
+  { path: 'interested-genres', component: InterestedGenresComponent, canActivate: [AuthGuard] },
+
+
   { path: '**', redirectTo: '' },
 ];

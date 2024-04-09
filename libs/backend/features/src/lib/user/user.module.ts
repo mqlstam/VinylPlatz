@@ -8,6 +8,7 @@ import { UserSchema } from './user.schema';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config'; // Import ConfigModule
+import { UserRelationshipService } from '../user-relationship/user-relationship.service';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { ConfigModule } from '@nestjs/config'; // Import ConfigModule
     ConfigModule, // Add ConfigModule to imports
   ],
   controllers: [UserController],
-  providers: [UserService, UserRepository, JwtStrategy],
+  providers: [UserService, UserRepository, JwtStrategy, UserRelationshipService],
   exports: [UserService],
 })
 export class UserModule {}

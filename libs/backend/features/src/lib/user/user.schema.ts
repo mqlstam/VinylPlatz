@@ -51,8 +51,12 @@
     updatedAt: {
       type: Date,
       default: Date.now
-    }
-
+    },
+    interestedGenres: {
+      type: [String],
+      required: false,
+      default: [],
+    },
     // Add other fields as needed
   });
 

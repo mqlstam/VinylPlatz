@@ -53,5 +53,15 @@ async findUserByUsernameOrEmail(username: string, email: string): Promise<IUser 
   } as UserQuery);
   return user;
 }
-
+async updateInterestedGenres(userId: string, genres: string[]): Promise<IUser> {
+  const updatedUser = await this.userRepository.findByIdAndUpdate(
+    userId,
+    { interestedGenres: genres },
+    { new: true }
+  );
+  if (!updatedUser) {
+    throw new NotFoundException(`User with ID ${userId} not found`);
+  }
+  return updatedUser;
+}
 }

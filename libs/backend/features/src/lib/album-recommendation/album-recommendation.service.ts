@@ -27,7 +27,7 @@ export class AlbumRecommendationService {
     const neo4jResult = await this.neo4jService.read(query, parameters);
 
     const albumIds = neo4jResult.map((record: { get: (key: string) => Record<string, any> }) => record.get('album')['properties'].albumId);
-        const recommendedAlbums = await this.albumModel.find({ albumId: { $in: albumIds } });
+    const recommendedAlbums = await this.albumModel.find({ albumId: { $in: albumIds } });
 
     return recommendedAlbums;
   }

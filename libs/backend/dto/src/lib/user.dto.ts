@@ -28,6 +28,10 @@
     @IsOptional()
     profileImage?: string;
 
+    @IsString({ each: true })
+    @IsOptional()
+    interestedGenres?: string[];
+
   
   }
 
@@ -55,6 +59,10 @@
     @IsString()
     @IsOptional()
     profileImage?: string;
+
+    @IsString({ each: true })
+    @IsOptional()
+    interestedGenres?: string[];
   }
 
   export class LoginUserDto {

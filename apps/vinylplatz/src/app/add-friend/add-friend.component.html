@@ -1,0 +1,12 @@
+<!-- apps/vinylplatz/src/app/add-friend/add-friend.component.html -->
+<div class="container mt-4">
+    <h2>Add Friend</h2>
+  
+    <form [formGroup]="addFriendForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="friendId">Friend ID</label>
+        <input type="text" class="form-control" id="friendId" formControlName="friendId">
+      </div>
+      <button type="submit" class="btn btn-primary">Add Friend</button>
+    </form>
+  </div>

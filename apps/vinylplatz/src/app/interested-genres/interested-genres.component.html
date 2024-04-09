@@ -1,0 +1,14 @@
+<!-- apps/vinylplatz/src/app/interested-genres/interested-genres.component.html -->
+<div class="container mt-4">
+    <h2>Interested Genres</h2>
+  
+    <form [formGroup]="interestedGenresForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Select Genres</label>
+        <select multiple class="form-control" formControlName="genres">
+          <option *ngFor="let genre of genreOptions" [value]="genre">{{ genre }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Update Interested Genres</button>
+    </form>
+  </div>
