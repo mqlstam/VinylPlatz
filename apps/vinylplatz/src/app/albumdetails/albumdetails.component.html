@@ -15,21 +15,21 @@
   <div class="album-details card shadow-lg mb-5 bg-white rounded">
     <div class="row g-0">
       <div class="col-md-4" *ngIf="album?.coverImageUrl">
-        <img [src]="album?.coverImageUrl" alt="{{ album?.title }} cover" class="img-fluid">
+        <img [src]="album.coverImageUrl" alt="{{ album.title }} cover" class="img-fluid">
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h2 class="card-title">{{ album?.title }}</h2>
+          <h2 class="card-title">{{ album.title }}</h2>
           <p class="card-text">
-            <strong>Artist:</strong> {{ album?.artist }}<br>
-            <strong>Release Date:</strong> {{ album?.releaseDate | date }}<br>
+            <strong>Artist:</strong> {{ album.artist }}<br>
+            <strong>Release Date:</strong> {{ album.releaseDate | date }}<br>
             <strong>Genre:</strong> 
-            <span *ngFor="let genre of album?.genre; let last = last">
+            <span *ngFor="let genre of album.genre; let last = last">
               {{ genre }}<span *ngIf="!last">, </span>
             </span>
           </p>
           <p class="card-text">
-            <strong>Description:</strong> {{ album?.description }}
+            <strong>Description:</strong> {{ album.description }}
           </p>
         </div>
       </div>

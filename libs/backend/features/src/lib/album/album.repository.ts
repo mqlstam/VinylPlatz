@@ -20,6 +20,7 @@ class AlbumRepository {
   }
 
   async findAll(): Promise<IAlbum[]> {
+    console.log('Finding all albums');
     return this.albumModel.find().exec();
   }
 

@@ -1,7 +1,8 @@
 import { 
   Body, Controller, Post, Put, Get, Param, Delete, 
   HttpCode, HttpStatus, NotFoundException, UseGuards, 
-  BadRequestException, Logger, UsePipes, ValidationPipe, Req 
+  BadRequestException, Logger, UsePipes, ValidationPipe, Req, 
+  HttpException
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@vinylplatz/backend/dto';
@@ -36,7 +37,17 @@ export class AlbumController {
     }
   }
 
-
+  @UseGuards(JwtAuthGuard)
+  @Get('available')
+  async getAvailableAlbums(): Promise<IAlbum[]> {
+    try {
+      return await this.albumService.findAvailableAlbums();
+    } catch (error) {
+      this.logger.error(`Error fetching available albums: ${error}`);
+      throw new HttpException('Failed to fetch available albums', HttpStatus.INTERNAL_SERVER_ERROR);
+      console.error('Error fetching available albums:', error);
+    }
+  }
   @UseGuards(JwtAuthGuard)
   @Get()
   async getAllAlbums(): Promise<IAlbum[]> {
@@ -100,10 +111,6 @@ export class AlbumController {
     return this.albumService.findPurchasedAlbumsByUser(userId);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('available')
-  async getAvailableAlbums(): Promise<IAlbum[]> {
-    return this.albumService.findAvailableAlbums();
-  }
+
 }
 

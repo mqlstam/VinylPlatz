@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album.service';
 import { AuthService } from '../services/auth.service';
-import { TransactionService } from '../services/transaction.service'; // Import the TransactionService
 import { IAlbum } from '@vinylplatz/shared/api';
 
 @Component({
@@ -16,8 +15,7 @@ export class AlbumRecommendationsComponent implements OnInit {
 
   constructor(
     private albumService: AlbumService,
-    private authService: AuthService,
-    private transactionService: TransactionService // Inject the TransactionService
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -46,5 +44,4 @@ export class AlbumRecommendationsComponent implements OnInit {
       this.loading = false;
     }
   }
-  
 }

@@ -13,9 +13,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AlbumService {
-  getUserId(): import("mongoose").Schema.Types.ObjectId {
-    throw new Error('Method not implemented.');
-  }
+
   private url = 'http://localhost:3000/api/albums'; // Update with your server URL
 
   constructor(private http: HttpClient, private authService: AuthService) {}
@@ -37,6 +35,13 @@ export class AlbumService {
       catchError(this.handleError)
     );
   }
+
+  getAvailableAlbums() {
+    return this.http.get<ApiListResponse<IAlbum>>(`${this.url}/available`, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
   get(id: string) {
     return this.http.get<ApiSingleResponse<IAlbum>>(`${this.url}/${id}`, { headers: this.getHeaders() }).pipe(
@@ -68,16 +73,15 @@ export class AlbumService {
     );
   }
 
-  getRecommendedAlbums(userId: string): Observable<IAlbum[]> {
-    return this.http.get<IAlbum[]>(`${this.url}/recommendations/${userId}`, { headers: this.getHeaders() });
+  getRecommendedAlbums(userId: string) {
+    return this.http.get<ApiListResponse<IAlbum>>(`${this.url}/recommendations/${userId}`, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  getPurchasedAlbumsByUser(userId: string): Observable<IAlbum[]> {
-    return this.http.get<IAlbum[]>(`${this.url}/purchased/${userId}`, { headers: this.getHeaders() });
-  }
-
-
-  getAvailableAlbums(): Observable<IAlbum[]> {
-    return this.http.get<IAlbum[]>(`${this.url}/available`, { headers: this.getHeaders() });
+  getPurchasedAlbumsByUser(userId: string) {
+    return this.http.get<ApiListResponse<IAlbum>>(`${this.url}/purchased/${userId}`, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
   }
 }

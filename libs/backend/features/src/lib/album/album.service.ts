@@ -47,6 +47,7 @@ export class AlbumService {
   }
 
   async findAlbumsByUser(userId: string): Promise<IAlbum[]> {
+    console.log('Finding all albums by user');
     return this.albumRepository.findByUser(userId);
   }
 

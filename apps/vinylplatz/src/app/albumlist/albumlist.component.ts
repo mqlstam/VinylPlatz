@@ -30,22 +30,26 @@ export class AlbumlistComponent implements OnInit {
     this.loadAlbums();
   }
 
-  loadAlbums() {
-    this.loading = true;
-    this.error = null;
+loadAlbums() {
+  this.loading = true;
+  this.error = null;
 
-    this.albumService.getAvailableAlbums().subscribe({
-      next: (albums) => {
-        this.albums = albums;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Error loading albums. Please try again later.';
-        console.error('Error fetching albums:', err);
-        this.loading = false;
+  this.albumService.getAvailableAlbums().subscribe({
+    next: (response: ApiListResponse<IAlbum>) => {
+      if (response.results) {
+        this.albums = response.results;
+      } else {
+        this.albums = [];
       }
-    });
-  }
+      this.loading = false;
+    },
+    error: (err) => {
+      this.error = 'Error loading albums. Please try again later.';
+      console.error('Error fetching albums:', err);
+      this.loading = false;
+    }
+  });
+}
 
 
   deleteAlbum(id: string) {

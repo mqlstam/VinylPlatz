@@ -29,10 +29,9 @@ export class AlbumdetailsComponent implements OnInit {
     }
   }
   getAlbum(id: string) {
-    console.log('Fetching album with id:', id);
     this.loading = true;
     this.error = null;
-    
+  
     this.albumService.get(id).subscribe({
       next: (apiResponse: ApiSingleResponse<IAlbum>) => {
         if (apiResponse.result) {
@@ -50,7 +49,6 @@ export class AlbumdetailsComponent implements OnInit {
       }
     });
   }
-    
     deleteAlbum() {
       if (this.album && this.album._id && confirm('Are you sure you want to delete this album?')) {
         // Convert ObjectId to string
