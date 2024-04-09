@@ -9,7 +9,10 @@ export class TransactionRepository {
   constructor(@InjectModel('Transaction') private readonly transactionModel: Model<ITransaction>) {}
 
   async create(transaction: ITransaction): Promise<ITransaction> {
+    console.log('Creating transaction: ', transaction);
     const newTransaction = new this.transactionModel(transaction);
+
+    console.log('New transaction: ', newTransaction);
     return newTransaction.save();
   }
 

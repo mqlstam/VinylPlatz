@@ -1,13 +1,14 @@
-// libs/shared/api/src/lib/models/transaction.interface.ts
-import { ObjectId } from 'mongoose';
-import { IAlbum } from './album.interface';
 
+// libs/shared/api/src/lib/models/transaction.interface.ts
+
+import { ObjectId } from 'mongoose';
 
 export interface ITransaction {
-  _id?: string;
-  album: string; // Reference to the album's ObjectId
-  buyer: string; // Reference to the buyer's ObjectId
-  seller: string; // Reference to the seller's ObjectId
+  _id?: string | ObjectId;
+  albumId: string; // Reference to the album's ObjectId
+  buyerId: string; // Reference to the buyer's ObjectId
+  sellerId: string; // Reference to the seller's ObjectId
   transactionDate: Date; // Date of the transaction
+  createdAt?: Date; // Add this property
+  updatedAt?: Date; // Add this property
 }
-

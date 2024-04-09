@@ -74,9 +74,9 @@ loadAlbums() {
     }
 
     const transaction: ITransaction = {
-      album: album._id.toString(),
-      buyer: currentUserId,
-      seller: album.userId,
+      albumId: album._id.toString(),
+      buyerId: currentUserId,
+      sellerId: album.userId,
       transactionDate: new Date()
     };
 

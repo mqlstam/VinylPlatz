@@ -1,11 +1,21 @@
-import { 
-  Body, Controller, Post, Get, Param, 
-  HttpCode, HttpStatus, NotFoundException, UseGuards, 
-  ValidationPipe, UsePipes, Req 
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Param,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  UseGuards,
+  ValidationPipe,
+  UsePipes,
+  Req,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { ITransaction } from '@vinylplatz/shared/api';
+import { CreateTransactionDto } from '@vinylplatz/backend/dto'; // Import CreateTransactionDto
 import { JwtAuthGuard } from '../user/jwt-auth.guard';
+import { ITransaction } from '@vinylplatz/shared/api';
 
 @Controller('transactions')
 export class TransactionController {
@@ -13,8 +23,12 @@ export class TransactionController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createTransaction(@Body() transactionDto: ITransaction, @Req() req: any): Promise<ITransaction> {
-    transactionDto.buyer = req.user._id;
+  @UsePipes(new ValidationPipe())
+  async createTransaction(
+    @Body() transactionDto: CreateTransactionDto, // Use CreateTransactionDto here
+    @Req() req: any,
+  ): Promise<ITransaction> {
+    transactionDto.buyerId = req.user._id; // Assign buyerId from request object
     return this.transactionService.createTransaction(transactionDto);
   }
 

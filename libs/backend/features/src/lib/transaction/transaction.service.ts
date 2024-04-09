@@ -11,10 +11,11 @@ export class TransactionService {
   ) {}
 
   async createTransaction(transactionDto: ITransaction): Promise<ITransaction> {
+
     const createdTransaction = await this.transactionRepository.create(transactionDto);
 
-    // Update the album's purchasedBy field
-    await this.albumService.updateAlbumPurchasedBy(transactionDto.album, transactionDto.buyer);
+    await this.albumService.updateAlbumPurchasedBy(transactionDto.albumId, transactionDto.buyerId);
+    console.log('Album updated');
 
     return createdTransaction;
   }

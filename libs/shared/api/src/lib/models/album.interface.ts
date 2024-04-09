@@ -10,6 +10,7 @@ export interface IAlbum {
   genre: Genre[]; // Use the Genre enum
   description: string;
   coverImageUrl?: string;
+  purchasedBy?: string; // Reference to the User
 }
 
 // Define a Genre enum

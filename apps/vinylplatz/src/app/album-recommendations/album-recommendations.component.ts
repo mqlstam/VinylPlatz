@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album.service';
 import { AuthService } from '../services/auth.service';
-import { IAlbum } from '@vinylplatz/shared/api';
+import { ApiListResponse, IAlbum } from '@vinylplatz/shared/api';
 
 @Component({
   selector: 'vinylplatz-album-recommendations',
@@ -29,8 +29,10 @@ export class AlbumRecommendationsComponent implements OnInit {
     const userId = this.authService.getCurrentUserId();
     if (userId) {
       this.albumService.getRecommendedAlbums(userId).subscribe({
-        next: (albums: IAlbum[]) => {
-          this.recommendedAlbums = albums;
+        next: (response: ApiListResponse<IAlbum>) => {
+          if (response.results) {
+            this.recommendedAlbums = response.results;
+          }
           this.loading = false;
         },
         error: (err: any) => {

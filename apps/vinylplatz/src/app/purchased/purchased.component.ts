@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album.service';
 import { AuthService } from '../services/auth.service';
-import { IAlbum } from '@vinylplatz/shared/api';
+import { IAlbum, ApiListResponse } from '@vinylplatz/shared/api';
 
 @Component({
   selector: 'vinylplatz-purchased-albums',
@@ -29,8 +29,10 @@ export class PurchasedAlbumsComponent implements OnInit {
       this.error = null;
 
       this.albumService.getPurchasedAlbumsByUser(userId).subscribe({
-        next: (albums) => {
-          this.purchasedAlbums = albums;
+        next: (response: ApiListResponse<IAlbum>) => {
+          if (response.results) {
+            this.purchasedAlbums = response.results;
+          }
           this.loading = false;
         },
         error: (err) => {

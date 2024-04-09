@@ -21,6 +21,8 @@ import { BackendErrorInterceptor } from './interceptors/backenderror.interceptor
     AlbumModule,
     TransactionModule,
     AlbumRecommendationModule, 
+    TransactionModule,
+
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -30,13 +32,13 @@ import { BackendErrorInterceptor } from './interceptors/backenderror.interceptor
     }),
     Neo4jModule, // Import Neo4jModule
   ],
-  controllers: [AppController],
-  providers: [AppService,
+ controllers: [AppController],
+  providers: [
+    AppService,
     {
       provide: APP_INTERCEPTOR,
       useClass: BackendErrorInterceptor,
     },
-    
   ],
 })
 export class AppModule {}

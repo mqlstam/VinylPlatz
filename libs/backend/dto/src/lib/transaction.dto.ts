@@ -15,10 +15,6 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   sellerId!: string; // ID of the seller
 
-  @IsNumber()
-  @IsNotEmpty()
-  price!: number;
-
   @IsDate()
   @Type(() => Date)
   transactionDate!: Date;
@@ -42,9 +38,6 @@ export class UpdateTransactionDto {
   @IsOptional()
   sellerId?: string;
 
-  @IsNumber()
-  @IsOptional()
-  price?: number;
 
   @IsDate()
   @IsOptional()
