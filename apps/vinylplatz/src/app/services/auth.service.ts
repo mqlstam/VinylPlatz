@@ -10,6 +10,9 @@
     providedIn: 'root'
   })
   export class AuthService {
+      getAuthHeaders() {
+          throw new Error('Method not implemented.');
+      }
 
     private tokenKey = 'auth_token';
     private apiUrl = 'http://localhost:3000/api/users'; // Replace with your API URL

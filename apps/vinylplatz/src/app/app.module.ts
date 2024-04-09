@@ -20,6 +20,8 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PurchasedAlbumsComponent } from './purchased/purchased.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
+import { InterestedGenresComponent } from './interested-genres/interested-genres.component';
+import { AddFriendComponent } from './add-friend/add-friend.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,9 @@ import { TransactionHistoryComponent } from './transaction-history/transaction-h
     UserAlbumListComponent,
     AlbumRecommendationsComponent,
     PurchasedAlbumsComponent,
-    TransactionHistoryComponent
+    TransactionHistoryComponent,
+    InterestedGenresComponent,
+    AddFriendComponent
 
   ],
   imports: [

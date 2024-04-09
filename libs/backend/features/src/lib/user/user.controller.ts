@@ -125,5 +125,4 @@ export class UserController {
     async updateInterestedGenres(@Param('userId') userId: string, @Body('genres') genres: string[]) {
       return this.userService.updateInterestedGenres(userId, genres);
     }
-  
   }

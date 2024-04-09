@@ -10,6 +10,7 @@
     firstName?: string;
     lastName?: string;
     profileImage?: string;
+    interestedGenres?: string[];
   }
 
   export interface IUserWithMethods extends IUser {

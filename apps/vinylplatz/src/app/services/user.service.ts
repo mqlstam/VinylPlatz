@@ -2,6 +2,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { IUser } from '@vinylplatz/shared/api';
+
 
 @Injectable({
   providedIn: 'root',
