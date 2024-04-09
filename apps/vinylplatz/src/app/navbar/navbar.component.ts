@@ -28,4 +28,9 @@ export class NavbarComponent implements OnInit {
   checkAuthStatus() {
     this.isAuthenticated = this.authService.isAuthenticated();
   }
+   
+  logout() {
+    this.authService.clearToken();
+    this.router.navigate(['/login']);
+  }
 }
