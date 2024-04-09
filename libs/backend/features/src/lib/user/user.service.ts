@@ -5,6 +5,7 @@ import UserRepository from './user.repository';
 import { CreateUserDto, UpdateUserDto } from '@vinylplatz/backend/dto';
 import { IUser } from '@vinylplatz/shared/api';
 import { IUserWithMethods } from '@vinylplatz/shared/api';
+import { Neo4jService } from '@vinylplatz/backend/neo4j';
 
 
 export type UserQuery = Partial<IUser> & {
@@ -12,11 +13,25 @@ export type UserQuery = Partial<IUser> & {
 };
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
-
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly neo4jService: Neo4jService,
+  ) {}
   async createUser(createUserDto: CreateUserDto): Promise<IUser> {
-    
-    return this.userRepository.save(createUserDto);
+    const createdUser = await this.userRepository.save(createUserDto);
+  
+    // Create a user node in Neo4j
+    const query = `
+      CREATE (u:User {userId: $userId, username: $username, email: $email})
+    `;
+    const parameters = {
+      userId: createdUser._id,
+      username: createdUser.username,
+      email: createdUser.email,
+    };
+    await this.neo4jService.write(query, parameters);
+  
+    return createdUser;
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<IUser> {

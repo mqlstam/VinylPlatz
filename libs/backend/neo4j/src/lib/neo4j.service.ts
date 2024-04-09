@@ -5,6 +5,9 @@ import * as neo4j from 'neo4j-driver';
 
 @Injectable()
 export class Neo4jService {
+  static write(query: string, parameters: { userId: string | undefined; username: string; email: string; }) {
+    throw new Error('Method not implemented.');
+  }
   private driver: Driver;
 
   constructor() {
