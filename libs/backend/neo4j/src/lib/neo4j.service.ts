@@ -8,7 +8,7 @@ export class Neo4jService {
   private driver: Driver;
 
   constructor() {
-    this.driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'password'));
+    this.driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12345678'));
   }
 
   getReadSession(database?: string): Session {
