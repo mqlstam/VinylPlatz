@@ -18,6 +18,7 @@ import { AlbumRecommendationsComponent } from './album-recommendations/album-rec
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PurchasedAlbumsComponent } from './purchased/purchased.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RegisterComponent,
     UserAlbumListComponent,
     AlbumRecommendationsComponent,
+    PurchasedAlbumsComponent
 
   ],
   imports: [

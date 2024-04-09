@@ -1,39 +1,33 @@
 import * as mongoose from 'mongoose';
 
 export interface ITransactionDocument extends mongoose.Document {
-  album: mongoose.Types.ObjectId;
-  buyer: mongoose.Types.ObjectId;
-  seller: mongoose.Types.ObjectId;
-  price: number;
+  albumId: mongoose.Types.ObjectId;
+  buyerId: mongoose.Types.ObjectId;
+  sellerId: mongoose.Types.ObjectId;
   transactionDate: Date;
-  status: string;
   createdAt: Date;
   updatedAt: Date;
   // Add other fields as needed
 }
 
 export const TransactionSchema = new mongoose.Schema({
-  album: {
+  albumId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Album',
     required: true
   },
-  buyer: {
+  buyerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  seller: {
+  sellerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   transactionDate: {
     type: Date,
-    required: true
-  },
-  status: {
-    type: String,
     required: true
   },
   createdAt: {

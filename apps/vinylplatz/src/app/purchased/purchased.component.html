@@ -1,1 +1,30 @@
-<p>purchased works!</p>
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let album of purchasedAlbums">
+        <div class="card h-100">
+          <img *ngIf="album.coverImageUrl" [src]="album.coverImageUrl" alt="{{ album.title }}" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">{{ album.title }}</h5>
+            <p class="card-text">
+              <strong>Artist:</strong> {{ album.artist }}<br>
+              <strong>Genre:</strong> {{ album.genre.join(', ') }}<br>
+              <strong>Release Year:</strong> {{ album.releaseDate | date: 'yyyy' }}
+            </p>
+          </div>
+          <div class="card-footer">
+            <a [routerLink]="['/album', album._id]" class="btn btn-primary me-1">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Loading and Error Messages -->
+    <div *ngIf="loading" class="text-center mt-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="error" class="alert alert-danger mt-4" role="alert">
+      {{ error }}
+    </div>
+  </div>

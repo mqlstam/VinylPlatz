@@ -11,6 +11,7 @@ import {
   ValidationPipe,
   UsePipes,
   Req,
+  HttpException,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from '@vinylplatz/backend/dto'; // Import CreateTransactionDto
@@ -25,11 +26,18 @@ export class TransactionController {
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   async createTransaction(
-    @Body() transactionDto: CreateTransactionDto, // Use CreateTransactionDto here
+    @Body() transactionDto: CreateTransactionDto,
     @Req() req: any,
   ): Promise<ITransaction> {
-    transactionDto.buyerId = req.user._id; // Assign buyerId from request object
-    return this.transactionService.createTransaction(transactionDto);
+    try {
+      transactionDto.buyerId = req.user._id;
+      const createdTransaction = await this.transactionService.createTransaction(transactionDto);
+      return createdTransaction;
+    } catch (error) {
+      console.error('Error creating transaction:', error);
+      // Handle the error appropriately, e.g., throw a new exception or return an error response
+      throw new HttpException('Failed to create transaction', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get(':id')
