@@ -4,7 +4,8 @@
     <div class="form-group">
       <label for="friendId">Select a friend:</label>
       <select class="form-control" id="friendId" [(ngModel)]="selectedFriendId">
-        <option *ngFor="let user of users" [value]="user._id">{{ user.username }}</option>
+        <option *ngFor="let user of users" [value]="user._id">{{ user.username
+  }}</option>
       </select>
     </div>
   

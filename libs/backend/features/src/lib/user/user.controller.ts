@@ -117,8 +117,16 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Post(':userId/friends/:friendId')
     async addFriend(@Param('userId') userId: string, @Param('friendId') friendId: string) {
-      await this.userRelationshipService.addFriend(userId, friendId);
+      try {
+        this.logger.log(`Adding friend with userId: ${userId} and friendId: ${friendId}`);
+        await this.userRelationshipService.addFriend(userId, friendId);
+        this.logger.log(`Friend added successfully for userId: ${userId} and friendId: ${friendId}`);
+      } catch (error) {
+        this.logger.error(`Error adding friend for userId: ${userId} and friendId: ${friendId}`, error);
+        throw error;
+      }
     }
+  
 
     @UseGuards(JwtAuthGuard)
     @Put(':userId/interested-genres')

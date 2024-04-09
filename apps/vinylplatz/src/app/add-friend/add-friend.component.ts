@@ -11,6 +11,8 @@ import { ApiListResponse, IUser } from '@vinylplatz/shared/api';
 export class AddFriendComponent implements OnInit {
   users: IUser[] = []; // Initialize as an empty array
   selectedFriendId = '';
+  addedFriends: IUser[] = []; // Array to store added friends
+  friendAddedMessage = ''; // Message to display when a friend is added
 
   constructor(
     private authService: AuthService,
@@ -22,37 +24,48 @@ export class AddFriendComponent implements OnInit {
   }
 
   loadUsers() {
-    // Assuming there's a loading property to indicate loading state
-
     this.userService.getAllUsers().subscribe({
       next: (response: ApiListResponse<IUser>) => {
         if (response.results) {
-          this.users = response.results; // Assign the response results to the users array
+          this.users = response.results;
         } else {
-          this.users = []; // Ensure users is an empty array if no results are found
-        }// Set loading to false as data has been loaded
+          this.users = [];
+        }
       },
       error: (err) => {
-        console.error('Error fetching users:', err); // Log the error
+        console.error('Error fetching users:', err);
       }
     });
   }
-  
 
   addFriend() {
     if (this.selectedFriendId) {
       const userId = this.authService.getCurrentUserId();
       if (userId) {
+        console.log('Adding friend with userId:', userId, 'and friendId:', this.selectedFriendId);
         this.userService.addFriend(userId, this.selectedFriendId).subscribe(
           () => {
-            // Friend added successfully
+            console.log('Friend added successfully');
+            const addedFriend = this.users.find(user => user._id ===
+this.selectedFriendId);
+            if (addedFriend) {
+              this.addedFriends.push(addedFriend);
+              this.friendAddedMessage = `You have added ${addedFriend.username}
+as a friend.`;
+            }
             this.selectedFriendId = '';
           },
           (error) => {
             console.error('Error adding friend:', error);
+            console.error('Error details:', error.error);
           }
         );
+      } else {
+        console.error('User ID is null. Cannot add friend.');
       }
+    } else {
+      console.error('No friend selected. Cannot add friend.');
     }
   }
+
 }

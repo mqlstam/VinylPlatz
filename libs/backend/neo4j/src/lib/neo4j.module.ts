@@ -12,7 +12,7 @@ import * as neo4j from 'neo4j-driver';
       useFactory: (configService: ConfigService) => {
         const uri = configService.get<string>('NEO4J_URI') || 'bolt://localhost:7687'; // Provide a default value
         const username = configService.get<string>('NEO4J_USERNAME') || 'neo4j'; // Provide a default value
-        const password = configService.get<string>('NEO4J_PASSWORD') || 'password'; // Provide a default value
+        const password = configService.get<string>('NEO4J_PASSWORD') || '12345678'; // Provide a default value
 
         const driver = neo4j.driver(uri, neo4j.auth.basic(username, password));
         return driver;
