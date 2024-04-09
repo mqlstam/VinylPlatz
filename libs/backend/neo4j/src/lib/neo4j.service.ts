@@ -41,7 +41,11 @@ export class Neo4jService {
     const session = this.getWriteSession(database);
     try {
       const result = await session.writeTransaction((tx) =>
-        tx.run(query, parameters)
+        tx.run(query, {
+          userId: parameters.userId.toString(), // Convert to string if necessary
+          username: parameters.username,
+          email: parameters.email
+        })
       );
       this.logger.log('Write operation completed successfully'); // Log successful write operation
       return result.records;
