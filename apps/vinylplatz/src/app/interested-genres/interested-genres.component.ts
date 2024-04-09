@@ -32,12 +32,12 @@ export class InterestedGenresComponent implements OnInit {
     const userId = this.authService.getCurrentUserId();
     if (userId) {
       this.userService.getUser(userId).subscribe(
-        (user) => {
+        (user: any) => {
           this.interestedGenresForm.patchValue({
             genres: user.interestedGenres || [],
           });
         },
-        (error) => {
+        (error: any) => {
           console.error('Error loading interested genres:', error);
         }
       );
@@ -53,7 +53,7 @@ export class InterestedGenresComponent implements OnInit {
         () => {
           // Interested genres updated successfully
         },
-        (error) => {
+        (error: any) => {
           console.error('Error updating interested genres:', error);
         }
       );

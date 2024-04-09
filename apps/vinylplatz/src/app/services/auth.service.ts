@@ -1,6 +1,6 @@
   //apps/vinylplatz/src/app/services/auth.service.ts
   import { Injectable } from '@angular/core';
-  import { HttpClient } from '@angular/common/http';
+  import { HttpClient, HttpHeaders } from '@angular/common/http';
   import { Observable } from 'rxjs';
   import { ApiSingleResponse } from '@vinylplatz/shared/api'; // Import ApiSingleResponse
   import { jwtDecode } from "jwt-decode"
@@ -10,9 +10,12 @@
     providedIn: 'root'
   })
   export class AuthService {
-      getAuthHeaders() {
-          throw new Error('Method not implemented.');
-      }
+    getAuthHeaders(): HttpHeaders {
+      const token = this.getToken();
+      return new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+    }
 
     private tokenKey = 'auth_token';
     private apiUrl = 'http://localhost:3000/api/users'; // Replace with your API URL

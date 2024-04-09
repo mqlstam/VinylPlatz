@@ -1,12 +1,23 @@
-<!-- apps/vinylplatz/src/app/add-friend/add-friend.component.html -->
 <div class="container mt-4">
     <h2>Add Friend</h2>
   
-    <form [formGroup]="addFriendForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="friendId">Friend ID</label>
-        <input type="text" class="form-control" id="friendId" formControlName="friendId">
-      </div>
-      <button type="submit" class="btn btn-primary">Add Friend</button>
-    </form>
+    <div class="form-group">
+      <label for="friendId">Select a friend:</label>
+      <select class="form-control" id="friendId" [(ngModel)]="selectedFriendId">
+        <option *ngFor="let user of users" [value]="user._id">{{ user.username }}</option>
+      </select>
+    </div>
+  
+    <button class="btn btn-primary" (click)="addFriend()">Add Friend</button>
+  
+    <div *ngIf="friendAddedMessage" class="alert alert-success mt-3">
+      {{ friendAddedMessage }}
+    </div>
+  
+    <h3 class="mt-4">Added Friends</h3>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let friend of addedFriends">
+        {{ friend.username }}
+      </li>
+    </ul>
   </div>
