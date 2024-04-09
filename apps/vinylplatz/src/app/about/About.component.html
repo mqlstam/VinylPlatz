@@ -1,151 +1,67 @@
 <div class="container mt-5">
 
-    <h1>VinylPlatz - About Page</h1>
-  
-    <h2>Introduction</h2>
-  
-    <p>VinylPlatz is a full-stack web application that serves as an online marketplace for buying, selling, and reviewing vinyl records. It provides a user-friendly interface for users to explore and interact with a wide range of vinyl records. The application is developed using Angular for the frontend and NestJS for the backend combined in a Nx Monorepo Workspace.</p>
-  
-    <h2>Entities and Relationships</h2>
-  
-    <p>VinylPlatz comprises the following entities:</p>
-  
-    <ol>
-      <li><strong>User</strong>: Represents users of the application and contains information for authentication and personal data. Attributes include <code>username</code>, <code>email</code>, <code>password_hash</code>, <code>location</code>, and <code>role</code>.</li>
-      <li><strong>Record</strong>: Represents the vinyl records available on the platform. It includes attributes such as <code>recordID</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>releaseYear</code>, <code>description</code>, and <code>image_url</code>.</li>
-      <li><strong>Transaction</strong>: Tracks the sale or purchase actions of a vinyl record. It captures information such as <code>transactionID</code>, <code>buyer</code>, <code>seller</code>, <code>record</code>, <code>price</code>, <code>transactionDate</code>, and <code>status</code>.</li>
-      <li><strong>Rating</strong>: Stores user ratings and reviews for purchased vinyl records. It contains attributes like <code>reviewID</code>, <code>user</code>, <code>plate</code>, <code>rating</code>, <code>reviewText</code>, and <code>reviewDate</code>.</li>
-    </ol>
-    
-    <p>The relationships between these entities are as follows:</p>
-  
-    <ol>
-      <li>A <strong>User</strong> can own multiple <strong>Records</strong> (1:N relationship).</li>
-      <li>A <strong>User</strong> can engage in multiple <strong>Transactions</strong> as a buyer or seller (1:N relationship).</li>
-      <li>A <strong>Record</strong> can be involved in multiple <strong>Transactions</strong> (1:N relationship).</li>
-      <li>A <strong>User</strong> can provide multiple <strong>Ratings</strong> (1:N relationship).</li> 
-      <li>A <strong>Record</strong> can have multiple <strong>Ratings</strong> (1:N relationship).</li>
-    </ol>
-  
-    <h2>Frontend Functionalities</h2>
-  
-    <p>VinylPlatz provides the following key functionalities in its frontend:</p>
-  
-    <ol>
-      <li>User Registration and Authentication: Users can register and authenticate themselves to access the full features of the application.</li>
-      <li>Vinyl Record Listings: Users can view a list of available vinyl records, including their titles, artists, genres, and prices.</li>
-      <li>Record Details: Users can explore detailed information about a specific vinyl record, such as its description, release year, and average rating.</li>
-      <li>Adding, Editing, and Deleting Records: Authenticated users can add new vinyl records to the marketplace, edit existing records, and delete records they own.</li>
-      <li>Transactions: Users can initiate and complete transactions for purchasing or selling vinyl records.</li>
-      <li>Rating and Reviewing: Users can rate and provide reviews for vinyl records they have purchased.</li>
-      <li>Filtering and Sorting: Users can filter and sort vinyl records based on various criteria, such as genre, artist, and price.</li>
-      <li>Transaction History: Users can view a summary of their transaction history, including past purchases and sales.</li>
-      <li>Ratings Overview: Users can see an overview of the ratings and reviews received by a particular vinyl record.</li>
-    </ol>
-  
-    <h2>Backend Functionalities</h2>
-  
-    <p>The backend of VinylPlatz, developed using the NestJS framework, provides the following functionalities:</p>
-  
-    <ol>
-      <li>API Endpoints: The backend exposes API endpoints to perform CRUD operations on the entities (User, Record, Transaction, Rating).</li>
-      <li>Authentication and Authorization: Secure endpoints are implemented to handle user authentication and authorization based on user roles.</li>
-      <li>Transaction Management: The backend handles the logic for processing transactions and updating the status of transactions based on buyer and seller actions.</li>
-      <li>Rating Calculation: The backend calculates the average rating for each vinyl record based on the ratings provided by users.</li>
-      <li>Advanced Queries: Complex queries are implemented to support filtering and sorting of vinyl records, retrieving transaction history, and accessing ratings.</li>
-    </ol>
-  
-    <h2>Testing and Implementation</h2>
-  
-    <p>Both the frontend and backend applications of VinylPlatz are thoroughly tested using test cases to ensure they function as intended. A CI/CD pipeline is employed to automate the testing and deployment process, ensuring reliable and efficient development practices. The application is deployed on a cloud platform, enabling online access and real-world usage.</p>
-  
-    <h2>About the Case</h2>
-  
-    <p>This case meets the complexity requirements of the project assignment by implementing an appropriate entity-relationship diagram (ERD) and addressing the functional and non-functional requirements of the system. The project utilizes both document and graph databases for efficient data management. The design of the application prioritizes scalability and performance to handle potential growth in users and records.</p>
-  
-    <h2>Functional Requirements</h2>
-  
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Description</th> 
-          <th>MOSCOW</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>User Registration</td>
-          <td>Allow users to register for a new account.</td>
-          <td>Must</td> 
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>User Authentication</td>
-          <td>Provide a secure login mechanism for users.</td>
-          <td>Must</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Vinyl Record Listings</td>
-          <td>Display a list of available vinyl records.</td>
-          <td>Must</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Record Details</td>
-          <td>Show detailed information about a record.</td>
-          <td>Must</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>Add Edit Delete Record</td>
-          <td>Allow authenticated users to add new records.</td>
-          <td>Must</td> 
-        </tr>
-      </tbody>
-    </table>
-  
-    <!-- Additional rows for requirements -->
-  
-    <h2>Non-Functional Requirements</h2>
-  
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>CI/CD Pipeline</td>
-          <td>Implement a CI/CD pipeline for automated testing and deployment.</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Security and Authentication</td>
-          <td>Ensure secure user authentication and role-based access control.</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Usability</td>
-          <td>Design a user-friendly system with clear error handling and UX principles.</td>
-        </tr>
-      </tbody>
-    </table>
-  
-  
-    <h2>Data Model</h2>
-  
-    <img src="https://drive.google.com/uc?export=download&id=15gB702-PBLc7C1DQ8aDxBHV-IUGvxMZo" class="img-fluid" alt="ER Diagram">
-  
-    <h2>Conclusion</h2>
-  
-    <p>VinylPlatz aims to provide an immersive and seamless experience for vinyl record enthusiasts. The application allows users to explore, buy, sell, and review vinyl records while ensuring secure authentication and data integrity. With its user-friendly interface, advanced search capabilities, and comprehensive transaction history, VinylPlatz offers a complete solution for vinyl record enthusiasts.</p>
-  
-  </div>
+  <h1>VinylPlatz - About Page</h1>
+
+  <h2>Introduction</h2>
+
+  <p>VinylPlatz is a full-stack web application that serves as an online marketplace for buying, selling, and reviewing vinyl records. It provides a user-friendly interface for users to explore and interact with a wide range of vinyl records. The application is developed using Angular for the frontend and NestJS for the backend combined in a Nx Monorepo Workspace.</p>
+
+  <h2>Entities and Relationships</h2>
+
+  <p>VinylPlatz comprises the following entities:</p>
+
+  <ol>
+    <li><strong>User</strong>: Represents users of the application and contains information for authentication and personal data. Attributes include <code>username</code>, <code>email</code>, <code>password</code>, <code>role</code>, <code>firstName</code>, <code>lastName</code>, <code>profileImage</code>, and <code>interestedGenres</code>.</li>
+    <li><strong>Album</strong>: Represents the vinyl records available on the platform. It includes attributes such as <code>title</code>, <code>artist</code>, <code>releaseDate</code>, <code>genre</code>, <code>description</code>, <code>coverImageUrl</code>, and <code>purchasedBy</code>.</li>
+    <li><strong>Transaction</strong>: Tracks the sale or purchase actions of a vinyl record. It captures information such as <code>albumId</code>, <code>buyerId</code>, <code>sellerId</code>, and <code>transactionDate</code>.</li>
+  </ol>
+
+  <p>The relationships between these entities are as follows:</p>
+
+  <ol>
+    <li>A <strong>User</strong> can own multiple <strong>Albums</strong> (1:N relationship).</li>
+    <li>A <strong>User</strong> can engage in multiple <strong>Transactions</strong> as a buyer or seller (1:N relationship).</li>
+    <li>An <strong>Album</strong> can be involved in multiple <strong>Transactions</strong> (1:N relationship).</li>
+    <li>A <strong>User</strong> can have multiple <strong>Friends</strong> (N:M relationship).</li>
+  </ol>
+
+  <h2>Frontend Functionalities</h2>
+
+  <p>VinylPlatz provides the following key functionalities in its frontend:</p>
+
+  <ol>
+    <li>User Registration and Authentication: Users can register and authenticate themselves to access the full features of the application.</li>
+    <li>Vinyl Record Listings: Users can view a list of available vinyl records, including their titles, artists, genres, and cover images.</li>
+    <li>Record Details: Users can explore detailed information about a specific vinyl record, such as its description, release date, and genre.</li>
+    <li>Adding, Editing, and Deleting Records: Authenticated users can add new vinyl records to the marketplace, edit existing records, and delete records they own.</li>
+    <li>Transactions: Users can initiate and complete transactions for purchasing vinyl records.</li>
+    <li>Filtering and Sorting: Users can filter and sort vinyl records based on various criteria, such as genre, artist, and release year.</li>
+    <li>Album Recommendations: Users can view personalized album recommendations based on their interested genres and friend relationships.</li>
+    <li>Transaction History: Users can view a summary of their transaction history, including past purchases.</li>
+    <li>Purchased Albums: Users can see a list of albums they have purchased.</li>
+    <li>Adding Friends: Users can add other users as friends to expand their network.</li>
+    <li>Interested Genres: Users can specify their interested genres to receive tailored recommendations.</li>
+  </ol>
+
+  <h2>Backend Functionalities</h2>
+
+  <p>The backend of VinylPlatz, developed using the NestJS framework, provides the following functionalities:</p>
+
+  <ol>
+    <li>API Endpoints: The backend exposes API endpoints to perform CRUD operations on the entities (User, Album, Transaction).</li>
+    <li>Authentication and Authorization: Secure endpoints are implemented to handle user authentication using JSON Web Tokens (JWT) and role-based authorization.</li>
+    <li>Transaction Management: The backend handles the logic for processing transactions and updating the ownership of albums based on buyer and seller actions.</li>
+    <li>Album Recommendations: The backend generates personalized album recommendations for users based on their interested genres and friend relationships using a graph database (Neo4j).</li>
+    <li>Error Handling: The backend includes global error handling using interceptors to provide meaningful error responses to the frontend.</li>
+    <li>Logging: The backend incorporates logging to track important operations and assist in debugging and monitoring.</li>
+  </ol>
+
+  <h2>Testing and Implementation</h2>
+
+  <p>Both the frontend and backend applications of VinylPlatz are tested using unit tests to ensure the correctness of individual components and services. The project follows a modular architecture using Nx Monorepo Workspace to facilitate code reusability and maintainability. The application leverages MongoDB as the primary database for storing entities and Neo4j as a graph database for generating personalized recommendations.</p>
+
+  <h2>Conclusion</h2>
+
+  <p>VinylPlatz aims to provide a comprehensive and user-friendly platform for vinyl record enthusiasts. With features like personalized recommendations, friendship connections, and seamless transactions, VinylPlatz offers a unique and engaging experience for users to explore, purchase, and connect with others who share their passion for vinyl records.</p>
+
+</div>

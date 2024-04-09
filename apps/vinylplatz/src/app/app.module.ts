@@ -22,6 +22,9 @@ import { PurchasedAlbumsComponent } from './purchased/purchased.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { InterestedGenresComponent } from './interested-genres/interested-genres.component';
 import { AddFriendComponent } from './add-friend/add-friend.component';
+import { DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,19 +40,23 @@ import { AddFriendComponent } from './add-friend/add-friend.component';
     PurchasedAlbumsComponent,
     TransactionHistoryComponent,
     InterestedGenresComponent,
-    AddFriendComponent
+    AddFriendComponent,
+    
 
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-  ],  providers: [
+  ],  providers: [ DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
+
   bootstrap: [AppComponent],
+  
 })
 export class AppModule {}

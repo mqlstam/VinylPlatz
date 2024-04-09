@@ -28,6 +28,7 @@ export class AlbumService {
   
     // Check if the album title is defined
     if (typeof createAlbumDto.title === 'undefined' || createAlbumDto.title === null) {
+      this.logger.error('Album creation failed, title is undefined or null');
       throw new Error('Album creation failed, title is undefined or null');
     }
   

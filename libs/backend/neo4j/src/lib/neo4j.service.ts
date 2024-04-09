@@ -35,16 +35,12 @@ export class Neo4jService {
   }
   async write(query: string, parameters?: any, database?: string): Promise<any> {
     this.logger.log(`Initiating write operation. Query: ${query}. Parameters: ${JSON.stringify(parameters)}. Database: ${database}`); // Log the start of the operation
-    this.logger.log(`Writing user with parameters: ${JSON.stringify(parameters)}`);
+  
+    this.logger.log(`Writing album with parameters: ${JSON.stringify(parameters)}`);
     const session = this.getWriteSession(database);
     try {
       const result = await session.writeTransaction((tx) =>
-        tx.run(query, {
-          userId: parameters.userId.toString(), // Convert to string if necessary
-          username: parameters.username,
-          email: parameters.email,
-          friendId: parameters.friendId
-        })
+        tx.run(query, parameters)
       );
       this.logger.log('Write operation completed successfully'); // Log successful write operation
       return result.records;
@@ -60,6 +56,4 @@ export class Neo4jService {
       }
     }
   }
-  
-
 }
