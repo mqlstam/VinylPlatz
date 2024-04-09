@@ -24,7 +24,8 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          npm run build
+          nx run vinylplatz:build
+          nx run data-api:build
           npm run test
 
       - name: Zip artifacts for deployment
@@ -38,13 +39,13 @@ jobs:
         with:
           name: vinylplatz
           path: vinylplatz-release.zip
-          
+
       - name: Upload data-api artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: data-api
           path: data-api-release.zip
-          
+
   deploy-vinylplatz:
     runs-on: ubuntu-latest
     needs: build
@@ -59,7 +60,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip vinylplatz-release.zip
-        
+
       - name: Deploy to static azure web app
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -67,7 +68,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "dist/apps/vinylplatz"
+          app_location: "dist/apps/vinylplatz/browser" # Update this path
           api_location: ""
           output_location: ""
 
@@ -94,4 +95,4 @@ jobs:
           app-name: 'NxWorkshop'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
-          package: 'dist/apps/data-api'
+          package: 'dist/apps/data-api/main' # Update this path
