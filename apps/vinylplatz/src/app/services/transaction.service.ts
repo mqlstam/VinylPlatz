@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ITransaction } from '@vinylplatz/shared/api';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { ITransaction, ApiListResponse } from '@vinylplatz/shared/api';
+import { throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,20 +17,40 @@ export class TransactionService {
     private authService: AuthService
   ) {}
 
-  createTransaction(transaction: ITransaction): Observable<ITransaction> {
+  private getHeaders(): HttpHeaders {
     const token = this.authService.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.post<ITransaction>(this.baseUrl, transaction, { headers });
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
+
+  handleError(error: HttpErrorResponse) {
+    console.error('Server-side error: ', error);
+    return throwError('There was a problem with the server. Please try again later.');
+  }
+
+  createTransaction(transaction: ITransaction): Observable<ITransaction> {
+    return this.http.post<ITransaction>(this.baseUrl, transaction, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getTransactionById(id: string): Observable<ITransaction> {
-    return this.http.get<ITransaction>(`${this.baseUrl}/${id}`);
+    return this.http.get<ITransaction>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getAllTransactions(): Observable<ITransaction[]> {
-    return this.http.get<ITransaction[]>(this.baseUrl);
+    return this.http.get<ApiListResponse<ITransaction>>(this.baseUrl, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError),
+      map(response => response.results || []) // Assuming the backend returns an array in the 'results' property
+    );
   }
   
-
-  // Additional methods can be added as needed
+  getAllTransactionsWithNames(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/with-names`, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
 }

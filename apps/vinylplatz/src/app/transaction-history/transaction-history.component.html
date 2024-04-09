@@ -1,1 +1,40 @@
-<p>transaction-history works!</p>
+<div class="container mt-4">
+    <h2>Transaction History</h2>
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Album</th>
+              <th>Buyer</th>
+              <th>Seller</th>
+              <th>Transaction Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngIf="transactions.length === 0; else transactionsList">
+              <p>No transactions found.</p>
+            </div>
+          
+            <ng-template #transactionsList>
+              <tr *ngFor="let transaction of transactions">
+                <td>{{ transaction.album }}</td>
+                <td>{{ transaction.buyer }}</td>
+                <td>{{ transaction.seller }}</td>
+                <td>{{ transaction.transactionDate | date }}</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <div *ngIf="loading" class="text-center mt-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="error" class="alert alert-danger mt-4" role="alert">
+      {{ error }}
+    </div>
+  </div>

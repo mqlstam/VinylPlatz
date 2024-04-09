@@ -21,8 +21,8 @@ export class TransactionHistoryComponent implements OnInit {
   loadTransactionHistory() {
     this.loading = true;
     this.error = null;
-
-    this.transactionService.getAllTransactions().subscribe({
+  
+    this.transactionService.getAllTransactionsWithNames().subscribe({
       next: (transactions) => {
         this.transactions = transactions;
         this.loading = false;

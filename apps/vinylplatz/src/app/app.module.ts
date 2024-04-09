@@ -19,6 +19,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PurchasedAlbumsComponent } from './purchased/purchased.component';
+import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { PurchasedAlbumsComponent } from './purchased/purchased.component';
     RegisterComponent,
     UserAlbumListComponent,
     AlbumRecommendationsComponent,
-    PurchasedAlbumsComponent
+    PurchasedAlbumsComponent,
+    TransactionHistoryComponent
 
   ],
   imports: [
