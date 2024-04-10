@@ -26,7 +26,6 @@ jobs:
     - name: Build Projects
       run: npx nx run-many --target=build --all
 
-    # Uncomment if you want to include test and lint steps
     # - name: Test Projects
     #   run: npx nx run-many --target=test --all
 
