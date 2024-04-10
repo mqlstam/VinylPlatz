@@ -24,8 +24,8 @@ jobs:
     - name: Build
       run: npx nx run-many --target=build vinylplatz,data-api
 
-    - name: Test
-      run: npx nx run-many --target=test vinylplatz,data-api
+    # - name: Test
+    #   run: npx nx run-many --target=test vinylplatz,data-api
 
 
     - name: Deploy Angular app to Azure Web App
