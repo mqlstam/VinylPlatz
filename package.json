@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     
-    "test": "jest"
+    "test": "jest "
   },
   "private": true,
   "dependencies": {

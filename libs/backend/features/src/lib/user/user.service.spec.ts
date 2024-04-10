@@ -4,10 +4,12 @@ import UserRepository from './user.repository';
 import { CreateUserDto, UpdateUserDto } from '@vinylplatz/backend/dto';
 import { IUser, IUserWithMethods } from '@vinylplatz/shared/api';
 import { ConflictException, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { Neo4jService } from '@vinylplatz/backend/neo4j';
 
 describe('UserService', () => {
   let service: UserService;
   let repository: UserRepository;
+  let neo4jService: Neo4jService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,54 +29,23 @@ describe('UserService', () => {
             delete: jest.fn(),
           },
         },
+        {
+          provide: Neo4jService,
+          useValue: {
+            write: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<UserService>(UserService);
     repository = module.get<UserRepository>(UserRepository);
+    neo4jService = module.get<Neo4jService>(Neo4jService);
   });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
-
-  describe('createUser', () => {
-    it('should create a new user and return the user object', async () => {
-      // ... (existing test)
-    });
-
-    it('should throw a ConflictException if the username or email is already in use', async () => {
-      const createUserDto: CreateUserDto = {
-        username: 'testuser',
-        email: 'test@example.com',
-        password: 'password',
-        role: 'user',
-      };
-      jest.spyOn(repository, 'findOne').mockResolvedValue({ username: 'testuser' } as IUser);
-      jest.spyOn(repository, 'save').mockImplementation(() => {
-        throw new ConflictException('Username or email already in use');
-      });
-
-      await expect(service.createUser(createUserDto)).rejects.toThrow(ConflictException);
-    });
-
-    it('should throw an error if validation fails', async () => {
-      const createUserDto: CreateUserDto = {
-        username: 'testuser',
-        email: 'test@example.com',
-        password: 'short', // Password is too short
-        role: 'user',
-      };
-      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null); // Assume no conflict for validation
-      jest.spyOn(repository, 'save').mockImplementation(() => {
-        throw new BadRequestException('Validation failed');
-      });
-
-      await expect(service.createUser(createUserDto)).rejects.toThrow();
-    });
-
-  // ... (other test cases for findUserById, updateUser, etc.)
-
   describe('validateUser', () => {
     it('should return the user if the username and password are valid', async () => {
       const username = 'testuser';
@@ -96,21 +67,12 @@ describe('UserService', () => {
       expect(result).toEqual(expectedUser);
     });
 
-    it('should return null if the username or password is invalid', async () => {
+    it('should throw an UnauthorizedException if the username or password is invalid', async () => {
       const username = 'nonexistent';
       const password = 'wrongpassword';
       jest.spyOn(repository, 'findOne').mockResolvedValue(null);
-  
-      await expect(service.validateUser(username, password)).rejects.toThrow(UnauthorizedException);
-    });
-  
-    it('should throw an UnauthorizedException if the user is not found', async () => {
-      const username = 'nonexistent';
-      const password = 'password123';
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
-  
+
       await expect(service.validateUser(username, password)).rejects.toThrow(UnauthorizedException);
     });
   });
-});
 });

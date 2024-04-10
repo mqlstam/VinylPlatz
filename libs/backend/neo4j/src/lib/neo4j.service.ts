@@ -38,8 +38,9 @@ export class Neo4jService {
     const session = this.getWriteSession(database);
     try {
       const result = await session.writeTransaction((tx) => {
-        const params = {};
+        const params: { [key: string]: any } = {};
         for (const key in parameters) {
+          // eslint-disable-next-line no-prototype-builtins
           if (parameters.hasOwnProperty(key)) {
             const value = parameters[key];
             params[key] = Array.isArray(value) ? value : value.toString();
