@@ -22,11 +22,13 @@ jobs:
       run: npm ci
 
     - name: Build
-      run: npx nx run-many --target=build vinylplatz,data-api
+      run: npx nx run-many --target=build --all
 
     # - name: Test
-    #   run: npx nx run-many --target=test vinylplatz,data-api
+    #   run: npx nx run-many --target=test --all
 
+    # - name: Lint
+    #   run: npx nx run-many --target=lint --all
 
     - name: Deploy Angular app to Azure Web App
       if: success() && github.ref == 'refs/heads/main'
