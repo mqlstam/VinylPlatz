@@ -34,25 +34,30 @@ export class Neo4jService {
     }
   }
   async write(query: string, parameters?: any, database?: string): Promise<any> {
-    this.logger.log(`Initiating write operation. Query: ${query}. Parameters: ${JSON.stringify(parameters)}. Database: ${database}`); // Log the start of the operation
-  
-    this.logger.log(`Writing album with parameters: ${JSON.stringify(parameters)}`);
+    this.logger.log(`Initiating write operation. Query: ${query}. Parameters: ${JSON.stringify(parameters)}. Database: ${database}`);
     const session = this.getWriteSession(database);
     try {
-      const result = await session.writeTransaction((tx) =>
-        tx.run(query, parameters)
-      );
-      this.logger.log('Write operation completed successfully'); // Log successful write operation
+      const result = await session.writeTransaction((tx) => {
+        const params = {};
+        for (const key in parameters) {
+          if (parameters.hasOwnProperty(key)) {
+            const value = parameters[key];
+            params[key] = Array.isArray(value) ? value : value.toString();
+          }
+        }
+        return tx.run(query, params);
+      });
+      this.logger.log('Write operation completed successfully');
       return result.records;
     } catch (error) {
-      this.logger.error(`Error during write operation. Query: ${query}. Parameters: ${JSON.stringify(parameters)}. Database: ${database}`, error); // Log any error that occurs during the write operation
-      throw error; // Rethrow the error after logging it
+      this.logger.error(`Error during write operation. Query: ${query}. Parameters: ${JSON.stringify(parameters)}. Database: ${database}`, error);
+      throw error;
     } finally {
       try {
-        await session.close(); // Attempt to close the session
-        this.logger.log('Session closed successfully'); // Log successful session close
+        await session.close();
+        this.logger.log('Session closed successfully');
       } catch (error) {
-        this.logger.error('Error closing session', error); // Log any errors that occur while closing the session
+        this.logger.error('Error closing session', error);
       }
     }
   }
