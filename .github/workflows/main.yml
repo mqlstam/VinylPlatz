@@ -71,7 +71,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "dist/apps/vinylplatz/browser" # Update this path
+          app_location: "dist/apps/vinylplatz" # Update this path
           api_location: ""
           output_location: ""
 
@@ -98,4 +98,4 @@ jobs:
           app-name: 'NxWorkshop'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
-          package: 'dist/apps/data-api/main' # Update this path
+          package: 'dist/apps/data-api' # Update this path
