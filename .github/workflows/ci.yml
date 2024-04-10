@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npx nx run-many --target=build --all
+
+    - name: Test
+      run: npx nx run-many --target=test --all
+
+    - name: Lint
+      run: npx nx run-many --target=lint --all
+
+    - name: Deploy Angular app to Azure Web App
+      if: success() && github.ref == 'refs/heads/main'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'vinylplatz'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: 'dist/apps/vinylplatz'
+
+    - name: Deploy NestJS app (data-api) to Azure App Service
+      if: success() && github.ref == 'refs/heads/main'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'data-api'
+        publish-profile: ${{ secrets.AZURE_APPSERVICE_DATA_API_PUBLISH_PROFILE }}
+        package: 'dist/apps/data-api'
+
+  
